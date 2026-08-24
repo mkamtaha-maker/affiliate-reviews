@@ -7,6 +7,7 @@ import re
 import subprocess
 import time
 import urllib.parse
+from datetime import datetime
 import schedule
 from dotenv import load_dotenv
 from google import genai
@@ -20,13 +21,32 @@ load_dotenv()
 # ==========================================
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 AFFILIATE_TAG = "kamalgear-21"
+SITE_BASE_URL = "https://mkamtaha-maker.github.io/affiliate-reviews"
 
 NICHES_LIST = [
+    # Motorcycle & Action Gear
     "Motorcycle Action Cameras and Helmets",
-    "Smart Home Security Systems and Cameras",
-    "High-Performance Running Shoes and Fitness Trackers",
-    "Ergonomic Home Office Chairs and Standing Desks",
-    "Wireless Noise-Canceling Gaming Headsets"
+    "Motorcycle Bluetooth Intercoms and Phone Mounts",
+    
+    # Smart Home & Security
+    "Smart Video Doorbells and Outdoor Security Cameras",
+    "Smart Thermostats and Energy Saving Home Automation",
+    "Robot Vacuum Cleaners with Auto-Empty Docks",
+    
+    # Computing & Ergonomics
+    "Ergonomic Standing Desks and High-Back Mesh Chairs",
+    "Mechanical Keyboards and Wireless Productivity Mice",
+    "Ultrawide Productivity and Gaming Monitors",
+    
+    # Audio & Tech Accessories
+    "Active Noise-Canceling Wireless Over-Ear Headphones",
+    "Portable Waterproof Bluetooth Speakers",
+    "High-Capacity GaN Fast Chargers and Power Banks",
+    
+    # Health, Fitness & Outdoor
+    "GPS Running Smartwatches and Heart Rate Monitors",
+    "Home Gym Adjustable Dumbbells and Workout Benches",
+    "Smart Air Purifiers and Dehumidifiers for UK Homes"
 ]
 
 niche_cycle = itertools.cycle(NICHES_LIST)
@@ -34,7 +54,7 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # ==========================================
-# 2. Pydantic Schemas
+# 2. Pydantic Schemas for Strict JSON
 # ==========================================
 class ProductItem(BaseModel):
     name: str
@@ -60,20 +80,20 @@ class SEOArticle(BaseModel):
 # ==========================================
 # 3. Product Discovery & Content Generation
 # ==========================================
-def agent_discover_products(niche: str, count: int = 2) -> list:
+def agent_discover_products(niche: str, count: int = 4) -> list:
     print(f"\n🔍 [Step 1] Exploring niche: '{niche}' (Fetching top {count} products)...")
     prompt = f"""
-    You are an expert e-commerce researcher for the UK market.
-    Identify {count} best-selling, top-rated products in: "{niche}".
+    You are an expert e-commerce product researcher specializing in the UK market.
+    Identify the top {count} trending, best-selling products in the niche: "{niche}".
 
-    For each product provide:
-    1. name: Exact product commercial name.
-    2. category: Specific product category.
-    3. estimated_price: Approximate price in GBP (e.g. "£499.99" or "£589.00").
+    For each product, provide:
+    1. name: Exact commercial product title.
+    2. category: Specific category.
+    3. estimated_price: Approximate retail price in GBP (e.g. "£149.99" or "£199 - £249").
     4. availability: "In Stock (Prime Eligible)".
     5. features: 4-5 bullet points of actual technical specifications.
     6. target_audience: Primary users.
-    7. search_query: Precise Amazon UK search phrase.
+    7. search_query: Precise search term for Amazon UK.
     """
     for attempt in range(3):
         try:
@@ -95,7 +115,7 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
 
             return products
         except Exception as e:
-            print(f"⚠️ Retrying in 5 seconds... (Attempt {attempt+1}/3)")
+            print(f"⚠️ API delay. Retrying in 5 seconds... (Attempt {attempt+1}/3)")
             time.sleep(5)
 
     return []
@@ -104,20 +124,23 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
 def agent_write_seo_review(product_data: dict) -> dict:
     print(f"✍️  [Step 2] Drafting SEO review for: {product_data['name']}...")
     prompt = f"""
-    You are an elite affiliate copywriter.
-    Write an in-depth product review for UK buyers:
+    You are an elite affiliate copywriter and SEO specialist.
+    Write an in-depth, conversion-focused product review article for UK consumers:
     Product: {product_data['name']}
+    Category: {product_data['category']}
     Price: {product_data.get('estimated_price', 'Check on Amazon.co.uk')}
-    Features: {product_data['features']}
+    Stock: {product_data.get('availability', 'In Stock')}
+    Key Features: {product_data['features']}
+    Target Audience: {product_data.get('target_audience', 'Consumers')}
     Affiliate URL: {product_data['affiliate_link']}
 
     Structure the JSON output with:
     - title: High-CTR SEO title (e.g. "[Product Name] Review (2026): Is It Worth It?").
-    - excerpt: 2-sentence summary hook.
-    - rating: Score out of 5.0 (e.g. 4.8).
-    - pros: 4 advantages.
-    - cons: 2 minor disadvantages.
-    - content_body: Semantic HTML paragraphs and <h2>/<h3> headers detailing build quality, performance, and comparison.
+    - excerpt: A compelling 2-sentence summary hook.
+    - rating: A score out of 5.0 (e.g. 4.8).
+    - pros: List of 4 distinct advantages.
+    - cons: List of 2 minor disadvantages.
+    - content_body: Semantic HTML paragraphs and <h2>/<h3> headers providing a comprehensive breakdown of build quality, performance, comparison with alternatives, and who should buy it.
     """
     for attempt in range(3):
         try:
@@ -132,22 +155,55 @@ def agent_write_seo_review(product_data: dict) -> dict:
             )
             return json.loads(response.text)
         except Exception as e:
-            print(f"⚠️ Retrying in 5 seconds... (Attempt {attempt+1}/3)")
+            print(f"⚠️ API delay. Retrying in 5 seconds... (Attempt {attempt+1}/3)")
             time.sleep(5)
 
     return {}
 
 
 # ==========================================
-# 4. Clean Minimalist UI (No Images)
+# 4. SEO Schema & HTML UI Builders
 # ==========================================
 LOGO_SVG = """<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>"""
 
 def build_article_html(article_data: dict, product_data: dict) -> str:
-    pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", ["Class-leading performance", "Exceptional UK reliability", "Premium ergonomic build", "High customer satisfaction"])])
+    pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", ["Class-leading performance", "Exceptional UK reliability", "Premium build quality", "High customer satisfaction"])])
     cons_html = "".join([f"<li>⚠️ {c}</li>" for c in article_data.get("cons", ["Premium investment", "Fast-moving stock"])])
     affiliate_url = product_data.get("affiliate_link", f"https://www.amazon.co.uk/s?k={urllib.parse.quote_plus(product_data['name'])}&tag={AFFILIATE_TAG}")
     price_val = str(product_data.get('estimated_price', 'Check on Amazon UK')).replace("$", "£")
+    numeric_price = re.sub(r'[^\d.]', '', price_val) or "99.99"
+    rating_val = article_data.get('rating', 4.8)
+
+    # Google Rich Snippet Structured Data (JSON-LD)
+    schema_json = json.dumps({
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": product_data['name'],
+        "description": article_data.get('excerpt', ''),
+        "brand": {
+            "@type": "Brand",
+            "name": product_data['name'].split()[0]
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": affiliate_url,
+            "priceCurrency": "GBP",
+            "price": numeric_price,
+            "availability": "https://schema.org/InStock"
+        },
+        "review": {
+            "@type": "Review",
+            "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": str(rating_val),
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Organization",
+                "name": "GearRadar UK"
+            }
+        }
+    }, indent=2)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -155,7 +211,11 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{article_data.get('title', product_data['name'])}</title>
+    <meta name="description" content="{article_data.get('excerpt', '')}">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+{schema_json}
+    </script>
     <style>
         :root {{ --primary: #2563eb; --primary-hover: #1d4ed8; --dark: #0f172a; --light-bg: #f8fafc; --border: #e2e8f0; --text-main: #334155; }}
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -219,7 +279,7 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
             <div class="spotlight-header">
                 <div>
                     <h2>{product_data['name']}</h2>
-                    <div class="rating-box">★ {article_data.get('rating', 4.8)} / 5.0 Overall Rating</div>
+                    <div class="rating-box">★ {rating_val} / 5.0 Overall Rating</div>
                 </div>
                 <div class="price-tag">{price_val}</div>
             </div>
@@ -244,8 +304,49 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
 </html>"""
 
 
+# ==========================================
+# 5. Automated Sitemap & Robots Generator
+# ==========================================
+def generate_sitemap_and_robots():
+    """Generates an up-to-date sitemap.xml and robots.txt for Google Search Console."""
+    articles = glob.glob("generated_articles/*.html")
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    url_nodes = f"""  <url>
+    <loc>{SITE_BASE_URL}/</loc>
+    <lastmod>{today}</lastmod>
+    <priority>1.00</priority>
+  </url>
+"""
+    for article in sorted(articles, key=os.path.getmtime, reverse=True):
+        filename = os.path.basename(article)
+        safe_url = f"{SITE_BASE_URL}/generated_articles/{urllib.parse.quote(filename)}"
+        url_nodes += f"""  <url>
+    <loc>{safe_url}</loc>
+    <lastmod>{today}</lastmod>
+    <priority>0.80</priority>
+  </url>
+"""
+
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{url_nodes}</urlset>"""
+
+    with open("sitemap.xml", "w", encoding="utf-8") as f:
+        f.write(sitemap_xml)
+
+    robots_txt = f"""User-agent: *
+Allow: /
+Sitemap: {SITE_BASE_URL}/sitemap.xml
+"""
+    with open("robots.txt", "w", encoding="utf-8") as f:
+        f.write(robots_txt)
+
+    print("🗺️  'sitemap.xml' and 'robots.txt' generated successfully for Google Search Console.")
+
+
 def sync_all_site_pages():
-    """Synchronizes both index.html and all generated_articles in a sleek text/editorial layout with zero broken images."""
+    """Synchronizes homepage, subpages, sitemap, and deploys everything."""
     os.makedirs("generated_articles", exist_ok=True)
     articles = glob.glob("generated_articles/*.html")
     cards_html = ""
@@ -272,7 +373,7 @@ def sync_all_site_pages():
                 },
                 product_data={
                     "name": clean_name,
-                    "category": "Motorcycle & Action Tech",
+                    "category": "Gear & Technology",
                     "estimated_price": "£499.99" if "Insta360" in clean_name else "£589.00",
                     "affiliate_link": affiliate_url
                 }
@@ -282,7 +383,7 @@ def sync_all_site_pages():
         except Exception as e:
             print(f"Error syncing {filename}: {e}")
 
-        badge_name = "Action Cam" if "Insta360" in clean_name or "Camera" in clean_name else "Motorcycle Gear"
+        badge_name = "Action Cam" if "Insta360" in clean_name or "Camera" in clean_name else ("Motorcycle" if "Shoei" in clean_name or "Helmet" in clean_name else "Tech Gear")
 
         cards_html += f"""
         <article class="card">
@@ -304,6 +405,7 @@ def sync_all_site_pages():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GearRadar UK - Smart Product Reviews & Buying Guides</title>
+    <meta name="description" content="Unbiased, data-driven buying recommendations and tech evaluations tailored for the UK market.">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {{ --primary: #2563eb; --dark: #0f172a; --light-bg: #f8fafc; --border: #e2e8f0; }}
@@ -367,32 +469,36 @@ def sync_all_site_pages():
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("🏠 Homepage and all articles synchronized with Clean Minimalist UI (Zero Images).")
+
+    generate_sitemap_and_robots()
+    print("🏠 Homepage, Structured Schemas, and Sitemap synchronized successfully.")
 
 
 def deploy_to_github():
     print("🚀 Pushing updates to GitHub Pages...")
     try:
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", f"Clean Editorial Minimalist UI Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "commit", "-m", f"Automated SEO Sitemap & Schema Push: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
-        print("✅ Live site deployed successfully!")
+        print("✅ Live site deployed with full SEO Architecture!")
     except Exception as e:
         print(f"⚠️ Git deploy note: {e}")
 
 
 # ==========================================
-# 5. Pipeline Runner
+# 6. Autonomous Pipeline Runner
 # ==========================================
 def run_autonomous_pipeline():
     current_niche = next(niche_cycle)
     print(f"\n{'='*60}\n⏰ Starting Cycle for Niche: {current_niche}\n{'='*60}")
-    products = agent_discover_products(niche=current_niche, count=2)
+    
+    products = agent_discover_products(niche=current_niche, count=4)
     if not products:
         return
 
     os.makedirs("generated_articles", exist_ok=True)
     for idx, prod in enumerate(products, 1):
+        print(f"--- [Processing {idx}/{len(products)}]: {prod['name']} (Est: {prod.get('estimated_price')}) ---")
         article_data = agent_write_seo_review(prod)
         if not article_data:
             continue
@@ -404,13 +510,14 @@ def run_autonomous_pipeline():
 
     sync_all_site_pages()
     deploy_to_github()
+    print("\n✅ Batch published! Next run in 6 hours.")
 
 
 if __name__ == "__main__":
     sync_all_site_pages()
     deploy_to_github()
 
-    schedule.every(24).hours.do(run_autonomous_pipeline)
+    schedule.every(6).hours.do(run_autonomous_pipeline)
 
     print("\n⏳ Autonomous agent is running. Press Ctrl+C to stop.")
     while True:

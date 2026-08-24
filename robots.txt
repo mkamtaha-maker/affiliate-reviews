@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mkamtaha-maker.github.io/affiliate-reviews/sitemap.xml
