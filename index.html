@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GearRadar UK - Smart Product Reviews & Buying Guides</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -9,76 +10,64 @@
         :root { --primary: #2563eb; --dark: #0f172a; --light-bg: #f8fafc; --border: #e2e8f0; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light-bg); color: #334155; line-height: 1.6; }
-        .header { background: #fff; border-bottom: 1px solid var(--border); padding: 3.5rem 1.5rem; text-align: center; }
-        .header-badge { background: #eff6ff; color: var(--primary); padding: 0.4rem 1rem; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
-        .header h1 { font-size: 2.8rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; }
-        .header p { font-size: 1.15rem; color: #64748b; max-width: 600px; margin: 0 auto; }
-        .container { max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem; }
+        
+        .navbar { background: #fff; border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; font-size: 1.4rem; font-weight: 800; color: var(--dark); }
+        .brand span { color: var(--primary); }
+        .nav-badge { background: #eff6ff; color: var(--primary); font-weight: 700; font-size: 0.85rem; padding: 0.35rem 0.85rem; border-radius: 9999px; border: 1px solid #bfdbfe; }
+
+        .hero-section { text-align: center; padding: 4rem 1.5rem 3rem; background: #fff; border-bottom: 1px solid var(--border); }
+        .hero-section h1 { font-size: 2.8rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; letter-spacing: -0.025em; }
+        .hero-section p { font-size: 1.15rem; color: #64748b; max-width: 620px; margin: 0 auto; }
+
+        .container { max-width: 1200px; margin: 3.5rem auto; padding: 0 1.5rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
+        
         .card { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.08); }
-        .card-thumb { position: relative; height: 220px; width: 100%; overflow: hidden; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        
+        .card-thumb { position: relative; height: 230px; width: 100%; overflow: hidden; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 1.5rem; border-bottom: 1px solid var(--border); }
         .card-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .card-thumb .badge { position: absolute; top: 12px; left: 12px; background: rgba(15, 23, 42, 0.85); color: #fff; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        
         .card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .card-content h3 { font-size: 1.2rem; color: var(--dark); font-weight: 700; margin-bottom: 0.75rem; }
+        .card-content h3 { font-size: 1.25rem; color: var(--dark); font-weight: 700; margin-bottom: 0.75rem; }
         .card-content p { color: #64748b; font-size: 0.92rem; margin-bottom: 1.5rem; }
-        .btn { display: inline-block; padding: 0.75rem 1.25rem; background: var(--primary); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; text-align: center; }
+        
+        .btn { display: inline-block; padding: 0.75rem 1.25rem; background: var(--primary); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; text-align: center; transition: background 0.2s; }
+        .btn:hover { background: #1d4ed8; }
+        
         footer { text-align: center; padding: 3rem 1.5rem; color: #94a3b8; font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 4rem; background: #fff; }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-badge">AI-Powered UK Product Hub</div>
-        <h1>Smart Product Reviews & Guides</h1>
-        <p>Unbiased, data-driven buying recommendations tailored for the UK market.</p>
+    <header class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="brand">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
+                <div><span>GearRadar</span> UK</div>
+            </a>
+            <span class="nav-badge">Autonomous AI Product Hub</span>
+        </div>
     </header>
-    <main class="container"><div class="grid">
+
+    <section class="hero-section">
+        <h1>Smart Product Reviews & Guides</h1>
+        <p>Unbiased, data-driven buying recommendations tailored for UK consumers and smart shoppers.</p>
+    </section>
+
+    <main class="container">
+        <div class="grid">
         <article class="card">
             <div class="card-thumb">
-                <img src="https://m.media-amazon.com/images/I/61Nl8HwZfYL._AC_SL1500_.jpg" alt="Insta360 X4 360 Action Camera" loading="lazy">
+                <img src="https://m.media-amazon.com/images/I/61N6q7LqLFL._AC_SL1000_.jpg" alt="Shoei RF-1400 Full Face Motorcycle Helme" loading="lazy">
                 <span class="badge">In-Depth Review</span>
             </div>
             <div class="card-content">
-                <h3>Insta360 X4 360 Action Camera</h3>
+                <h3>Shoei RF-1400 Full Face Motorcycle Helme</h3>
                 <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Insta360 X4 360 Action Camera.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://m.media-amazon.com/images/I/61wL9yP+rLL._AC_SL1000_.jpg" alt="Shoei Neotec 3 Flip Up Motorcycle Helmet" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Shoei Neotec 3 Flip Up Motorcycle Helmet</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei Neotec 3 Flip Up Motorcycle Helmet.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://m.media-amazon.com/images/I/61Nl8HwZfYL._AC_SL1500_.jpg" alt="Insta360 X4 8K Waterproof 360 Action Cam" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Insta360 X4 8K Waterproof 360 Action Cam</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Insta360 X4 8K Waterproof 360 Action Cam.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://m.media-amazon.com/images/I/61N6q7LqLFL._AC_SL1000_.jpg" alt="Shoei RF-1400 Full Face Helmet" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Shoei RF-1400 Full Face Helmet</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei RF-1400 Full Face Helmet.html" class="btn">Read Full Review &rarr;</a>
+                <a href="generated_articles/Shoei RF-1400 Full Face Motorcycle Helme.html" class="btn">Read Full Review &rarr;</a>
             </div>
         </article>
         
@@ -96,16 +85,56 @@
         
         <article class="card">
             <div class="card-thumb">
-                <img src="https://m.media-amazon.com/images/I/61N6q7LqLFL._AC_SL1000_.jpg" alt="Shoei RF-1400 Full Face Motorcycle Helme" loading="lazy">
+                <img src="https://m.media-amazon.com/images/I/61N6q7LqLFL._AC_SL1000_.jpg" alt="Shoei RF-1400 Full Face Helmet" loading="lazy">
                 <span class="badge">In-Depth Review</span>
             </div>
             <div class="card-content">
-                <h3>Shoei RF-1400 Full Face Motorcycle Helme</h3>
+                <h3>Shoei RF-1400 Full Face Helmet</h3>
                 <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei RF-1400 Full Face Motorcycle Helme.html" class="btn">Read Full Review &rarr;</a>
+                <a href="generated_articles/Shoei RF-1400 Full Face Helmet.html" class="btn">Read Full Review &rarr;</a>
             </div>
         </article>
-        </div></main>
-    <footer><p>© 2026 GearRadar UK. As an Amazon Associate, we earn from qualifying purchases.</p></footer>
+        
+        <article class="card">
+            <div class="card-thumb">
+                <img src="https://m.media-amazon.com/images/I/61Nl8HwZfYL._AC_SL1500_.jpg" alt="Insta360 X4 8K Waterproof 360 Action Cam" loading="lazy">
+                <span class="badge">In-Depth Review</span>
+            </div>
+            <div class="card-content">
+                <h3>Insta360 X4 8K Waterproof 360 Action Cam</h3>
+                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
+                <a href="generated_articles/Insta360 X4 8K Waterproof 360 Action Cam.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        
+        <article class="card">
+            <div class="card-thumb">
+                <img src="https://m.media-amazon.com/images/I/61wL9yP+rLL._AC_SL1000_.jpg" alt="Shoei Neotec 3 Flip Up Motorcycle Helmet" loading="lazy">
+                <span class="badge">In-Depth Review</span>
+            </div>
+            <div class="card-content">
+                <h3>Shoei Neotec 3 Flip Up Motorcycle Helmet</h3>
+                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
+                <a href="generated_articles/Shoei Neotec 3 Flip Up Motorcycle Helmet.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        
+        <article class="card">
+            <div class="card-thumb">
+                <img src="https://m.media-amazon.com/images/I/61Nl8HwZfYL._AC_SL1500_.jpg" alt="Insta360 X4 360 Action Camera" loading="lazy">
+                <span class="badge">In-Depth Review</span>
+            </div>
+            <div class="card-content">
+                <h3>Insta360 X4 360 Action Camera</h3>
+                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
+                <a href="generated_articles/Insta360 X4 360 Action Camera.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 GearRadar UK. As an Amazon Associate, we earn from qualifying purchases.</p>
+    </footer>
 </body>
 </html>
