@@ -34,27 +34,27 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # ==========================================
-# 2. Verified High-Definition Product Photos
+# 2. Verified High-Resolution CDN Assets
 # ==========================================
 def get_matching_image(title: str) -> str:
-    """Returns verified HD realistic product images without CORS/Hotlink restrictions."""
+    """Returns verified HD realistic product images with zero CORS/blocking issues."""
     t = title.lower()
     if "insta360" in t or "action cam" in t or "camera" in t or "gopro" in t:
-        # صورة كاميرا أكشن رياضية حقيقية (Action Camera on Mount)
-        return "https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?w=800&auto=format&fit=crop&q=80"
+        # صورة حقيقية لكاميرا تصوير وأكشن احترافية
+        return "https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?auto=format&fit=crop&w=800&q=80"
     elif "shoei" in t or "helmet" in t or "motorcycle" in t or "modular" in t:
-        # صورة خوذة دراجات نارية حقيقية (Full-Face Motorcycle Helmet)
-        return "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=800&auto=format&fit=crop&q=80"
+        # صورة حقيقية لخوذة دراجات نارية رياضية متكاملة
+        return "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80"
     elif "headset" in t or "audio" in t or "gaming" in t or "headphone" in t:
-        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
     elif "chair" in t or "desk" in t or "office" in t:
-        return "https://images.unsplash.com/photo-1580481077195-c990be1fb671?w=800&auto=format&fit=crop&q=80"
+        return "https://images.unsplash.com/photo-1580481077195-c990be1fb671?auto=format&fit=crop&w=800&q=80"
     elif "shoe" in t or "running" in t or "fitness" in t or "tracker" in t:
-        return "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80"
+        return "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"
     elif "security" in t or "smart home" in t:
-        return "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&auto=format&fit=crop&q=80"
+        return "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80"
     else:
-        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80"
 
 
 # ==========================================
