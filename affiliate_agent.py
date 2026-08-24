@@ -28,21 +28,34 @@ NICHES_LIST = [
     "Wireless Noise-Canceling Gaming Headsets"
 ]
 
-TECH_IMAGES = [
-    "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=800&auto=format&fit=crop&q=80"
-]
-
 niche_cycle = itertools.cycle(NICHES_LIST)
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # ==========================================
-# 2. Pydantic Schemas for Strict JSON
+# 2. Image Matching Logic by Product Category
+# ==========================================
+def get_matching_image(title: str) -> str:
+    """Returns an accurate, high-quality image matching the actual product category."""
+    title_lower = title.lower()
+    if "camera" in title_lower or "insta360" in title_lower or "gopro" in title_lower:
+        return "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80"
+    elif "helmet" in title_lower or "shoei" in title_lower or "motorcycle" in title_lower or "modular" in title_lower:
+        return "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80"
+    elif "headset" in title_lower or "audio" in title_lower or "headphone" in title_lower:
+        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+    elif "chair" in title_lower or "desk" in title_lower or "office" in title_lower:
+        return "https://images.unsplash.com/photo-1580481077195-c990be1fb671?w=800&auto=format&fit=crop&q=80"
+    elif "shoe" in title_lower or "running" in title_lower or "fitness" in title_lower or "tracker" in title_lower:
+        return "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80"
+    elif "security" in title_lower or "smart home" in title_lower:
+        return "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&auto=format&fit=crop&q=80"
+    else:
+        return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+
+
+# ==========================================
+# 3. Pydantic Schemas for Strict JSON Validation
 # ==========================================
 class ProductItem(BaseModel):
     name: str
@@ -66,7 +79,7 @@ class SEOArticle(BaseModel):
 
 
 # ==========================================
-# 3. Product Discovery & SEO Generator
+# 4. Product Discovery & SEO Review Generator
 # ==========================================
 def agent_discover_products(niche: str, count: int = 2) -> list:
     print(f"\n🔍 [Step 1] Exploring niche: '{niche}' (Fetching top {count} products)...")
@@ -97,10 +110,10 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
             result = json.loads(response.text)
             products = result.get("products", [])
 
-            for idx, prod in enumerate(products):
+            for prod in products:
                 query_formatted = urllib.parse.quote_plus(prod["search_query"])
                 prod["affiliate_link"] = f"https://www.amazon.co.uk/s?k={query_formatted}&tag={AFFILIATE_TAG}"
-                prod["image_url"] = TECH_IMAGES[idx % len(TECH_IMAGES)]
+                prod["image_url"] = get_matching_image(prod["name"])
 
             return products
         except Exception as e:
@@ -124,7 +137,7 @@ def agent_write_seo_review(product_data: dict) -> dict:
     Affiliate URL: {product_data['affiliate_link']}
 
     Structure the JSON output with:
-    - title: High-CTR SEO title (e.g. "[Product Name] Review (2026): Is It Worth It?").
+    - title: High-CTR SEO title (e.g. "[Product Name] Review: Is It Worth It?").
     - excerpt: A compelling 2-sentence summary hook.
     - rating: A score out of 5.0 (e.g. 4.8).
     - pros: List of 4 distinct advantages.
@@ -151,12 +164,13 @@ def agent_write_seo_review(product_data: dict) -> dict:
 
 
 # ==========================================
-# 4. Premium HTML Layout Builders
+# 5. Modern HTML UI Builders
 # ==========================================
 def build_article_html(article_data: dict, product_data: dict) -> str:
     """Wraps article content inside a modern, conversion-optimized standalone webpage."""
     pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", [])])
     cons_html = "".join([f"<li>⚠️ {c}</li>" for c in article_data.get("cons", [])])
+    matched_img = get_matching_image(product_data['name'])
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -237,7 +251,7 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
         </div>
 
         <div class="product-hero">
-            <img src="{product_data['image_url']}" alt="{product_data['name']}">
+            <img src="{matched_img}" alt="{product_data['name']}">
             <div class="hero-info">
                 <h2>{product_data['name']}</h2>
                 <div class="rating-box">★ {article_data.get('rating', 4.8)} / 5.0 Editorial Rating</div>
@@ -277,14 +291,14 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
 
 
 def update_homepage():
-    """Builds a magazine-style homepage with high-res active images."""
+    """Builds a magazine-style homepage with contextually accurate product imagery."""
     articles = glob.glob("generated_articles/*.html")
     cards_html = ""
 
-    for idx, article in enumerate(sorted(articles, key=os.path.getmtime, reverse=True)):
+    for article in sorted(articles, key=os.path.getmtime, reverse=True):
         filename = os.path.basename(article)
         clean_name = filename.replace(".html", "")
-        img_url = TECH_IMAGES[idx % len(TECH_IMAGES)]
+        img_url = get_matching_image(clean_name)
 
         cards_html += f"""
         <article class="card">
@@ -363,7 +377,7 @@ def update_homepage():
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("🏠 Premium homepage 'index.html' updated with high-res active images.")
+    print("🏠 Homepage 'index.html' updated with matched product images.")
 
 
 def deploy_to_github():
@@ -371,7 +385,7 @@ def deploy_to_github():
     print("🚀 Pushing updates to GitHub Pages...")
     try:
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", f"UI and Image Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "commit", "-m", f"UI and Image Match Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         print("✅ Live site deployed successfully!")
     except Exception as e:
@@ -379,7 +393,7 @@ def deploy_to_github():
 
 
 # ==========================================
-# 5. Pipeline Runner & Scheduling
+# 6. Pipeline Runner & Scheduling
 # ==========================================
 def run_autonomous_pipeline():
     current_niche = next(niche_cycle)
@@ -412,7 +426,7 @@ def run_autonomous_pipeline():
 
 
 if __name__ == "__main__":
-    # تشغيل تحديث فوري للواجهة ثم بدء الجدولة
+    # تشغيل تحديث وتوليد فوري للواجهة ثم بدء الجدولة
     update_homepage()
     deploy_to_github()
 
