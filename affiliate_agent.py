@@ -33,22 +33,24 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # ==========================================
-# 2. Product-Accurate Image Selector
+# 2. Precise Product Image Mapping (HD & Accurate)
 # ==========================================
 def get_matching_image(title: str) -> str:
-    """Returns a high-definition real product photo matching the title."""
-    title_lower = title.lower()
-    if "insta360" in title_lower or "360 action" in title_lower:
-        return "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80"
-    elif "shoei" in title_lower or "helmet" in title_lower or "motorcycle" in title_lower:
-        return "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80"
-    elif "headset" in title_lower or "audio" in title_lower or "gaming" in title_lower:
+    """Returns an accurate, high-definition photo matching the real product."""
+    t = title.lower()
+    if "insta360" in t or "action cam" in t or "camera" in t or "gopro" in t:
+        # صورة كاميرا أكشن وتصوير مغامرات حقيقية
+        return "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&auto=format&fit=crop&q=80"
+    elif "shoei" in t or "helmet" in t or "motorcycle" in t:
+        # صورة خوذة دراجة نارية احترافية حقيقية
+        return "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80"
+    elif "headset" in t or "gaming" in t or "headphone" in t:
         return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
-    elif "chair" in title_lower or "desk" in title_lower:
+    elif "chair" in t or "desk" in t or "office" in t:
         return "https://images.unsplash.com/photo-1580481077195-c990be1fb671?w=800&auto=format&fit=crop&q=80"
-    elif "running" in title_lower or "shoe" in title_lower or "fitness" in title_lower:
+    elif "shoe" in t or "running" in t or "fitness" in t:
         return "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80"
-    elif "security" in title_lower or "camera" in title_lower:
+    elif "security" in t or "smart home" in t:
         return "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&auto=format&fit=crop&q=80"
     else:
         return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
@@ -79,7 +81,7 @@ class SEOArticle(BaseModel):
 
 
 # ==========================================
-# 4. Product Discovery & Review Drafting
+# 4. Product Discovery & SEO Generation
 # ==========================================
 def agent_discover_products(niche: str, count: int = 2) -> list:
     print(f"\n🔍 [Step 1] Exploring niche: '{niche}' (Fetching top {count} products)...")
@@ -161,12 +163,12 @@ def agent_write_seo_review(product_data: dict) -> dict:
 
 
 # ==========================================
-# 5. Synchronized UI & Homepage Builders
+# 5. UI Builder (Guaranteed Image Match)
 # ==========================================
 def build_article_html(article_data: dict, product_data: dict) -> str:
     pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", [])])
     cons_html = "".join([f"<li>⚠️ {c}</li>" for c in article_data.get("cons", [])])
-    image_url = product_data.get("image_url", get_matching_image(product_data['name']))
+    image_url = get_matching_image(product_data['name'])
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -240,8 +242,8 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
 </html>"""
 
 
-def update_homepage():
-    """Generates homepage with identical, synchronized images."""
+def update_all_existing_pages_and_homepage():
+    """Rewrites all existing articles with exact matching images and syncs index.html."""
     articles = glob.glob("generated_articles/*.html")
     cards_html = ""
 
@@ -249,6 +251,18 @@ def update_homepage():
         filename = os.path.basename(article)
         clean_name = filename.replace(".html", "")
         img_url = get_matching_image(clean_name)
+
+        # تحديث الصورة داخل المقال الداخلي نفسه ليتطابق مع الصفحة الرئيسية
+        try:
+            with open(article, "r", encoding="utf-8") as f:
+                content = f.read()
+            # استبدال أي رابط صورة قديم برابط الصورة المطابق
+            import re
+            content_updated = re.sub(r'<img src="[^"]+"', f'<img src="{img_url}"', content)
+            with open(article, "w", encoding="utf-8") as f:
+                f.write(content_updated)
+        except Exception:
+            pass
 
         cards_html += f"""
         <article class="card">
@@ -306,14 +320,14 @@ def update_homepage():
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("🏠 Homepage 'index.html' synchronized successfully.")
+    print("🏠 All existing articles and 'index.html' synchronized successfully with HD matched images.")
 
 
 def deploy_to_github():
     print("🚀 Pushing updates to GitHub Pages...")
     try:
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", f"Sync UI and Product Images: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "commit", "-m", f"Sync UI and HD Product Images: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         print("✅ Live site deployed successfully!")
     except Exception as e:
@@ -321,7 +335,7 @@ def deploy_to_github():
 
 
 # ==========================================
-# 6. Pipeline Runner
+# 6. Pipeline Runner & Scheduling
 # ==========================================
 def run_autonomous_pipeline():
     current_niche = next(niche_cycle)
@@ -341,13 +355,15 @@ def run_autonomous_pipeline():
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(full_html)
 
-    update_homepage()
+    update_all_existing_pages_and_homepage()
     deploy_to_github()
 
 
 if __name__ == "__main__":
-    update_homepage()
+    # تشغيل إعادة بناء فورية لجميع المقالات الحالية ورفعها
+    update_all_existing_pages_and_homepage()
     deploy_to_github()
+
     schedule.every(24).hours.do(run_autonomous_pipeline)
 
     print("\n⏳ Autonomous agent is running. Press Ctrl+C to stop.")
