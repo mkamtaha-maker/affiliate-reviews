@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 import time
+import urllib.parse
 import schedule
 from dotenv import load_dotenv
 from google import genai
@@ -88,9 +89,12 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
             products = result.get("products", [])
 
             for prod in products:
-                query_formatted = prod["search_query"].replace(" ", "+")
+                query_formatted = urllib.parse.quote_plus(prod["search_query"])
                 prod["affiliate_link"] = f"https://www.amazon.co.uk/s?k={query_formatted}&tag={AFFILIATE_TAG}"
-                prod["image_url"] = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80"
+                clean_keyword = urllib.parse.quote(prod["name"].split()[0] + "," + prod["category"].split()[0])
+                prod["image_url"] = f"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+                # Using high-quality product images via keyword redirection
+                prod["image_url"] = f"https://source.unsplash.com/800x600/?{clean_keyword}"
 
             return products
         except Exception as e:
@@ -147,6 +151,9 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
     """Wraps article content inside a modern, conversion-optimized standalone webpage."""
     pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", [])])
     cons_html = "".join([f"<li>⚠️ {c}</li>" for c in article_data.get("cons", [])])
+    
+    clean_keyword = urllib.parse.quote(product_data['name'].split()[0])
+    dynamic_img = f"https://source.unsplash.com/800x600/?{clean_keyword},tech"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -180,7 +187,7 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
         .badge {{ background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600; font-size: 0.8rem; }}
 
         .product-hero {{ background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04); }}
-        .product-hero img {{ width: 100%; border-radius: 12px; object-fit: cover; }}
+        .product-hero img {{ width: 100%; height: 260px; border-radius: 12px; object-fit: cover; background: #e2e8f0; }}
         .hero-info h2 {{ font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem; }}
         .price-tag {{ font-size: 1.8rem; font-weight: 800; color: #059669; margin: 0.75rem 0; }}
         .rating-box {{ display: inline-flex; align-items: center; gap: 0.35rem; background: #fef3c7; color: #92400e; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.9rem; margin-bottom: 1rem; }}
@@ -227,7 +234,7 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
         </div>
 
         <div class="product-hero">
-            <img src="{product_data['image_url']}" alt="{product_data['name']}">
+            <img src="{dynamic_img}" alt="{product_data['name']}">
             <div class="hero-info">
                 <h2>{product_data['name']}</h2>
                 <div class="rating-box">★ {article_data.get('rating', 4.8)} / 5.0 Editorial Rating</div>
@@ -267,17 +274,20 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
 
 
 def update_homepage():
-    """Builds a magazine-style, modern homepage showcase."""
+    """Builds a magazine-style homepage with unique dynamic imagery for each card."""
     articles = glob.glob("generated_articles/*.html")
     cards_html = ""
 
     for article in sorted(articles, key=os.path.getmtime, reverse=True):
         filename = os.path.basename(article)
         clean_name = filename.replace(".html", "")
+        clean_keyword = urllib.parse.quote(clean_name.split()[0])
+        img_url = f"https://source.unsplash.com/600x400/?{clean_keyword},gear"
+
         cards_html += f"""
         <article class="card">
             <div class="card-thumb">
-                <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&auto=format&fit=crop&q=80" alt="{clean_name}">
+                <img src="{img_url}" alt="{clean_name}" loading="lazy">
                 <span class="badge">In-Depth Review</span>
             </div>
             <div class="card-content">
@@ -351,7 +361,7 @@ def update_homepage():
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("🏠 Premium homepage 'index.html' generated successfully.")
+    print("🏠 Premium homepage 'index.html' updated with diverse images.")
 
 
 def deploy_to_github():
@@ -359,9 +369,9 @@ def deploy_to_github():
     print("🚀 Pushing updates to GitHub Pages...")
     try:
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", f"UI Refresh & Deploy: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "commit", "-m", f"UI and Dynamic Image Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
-        print("✅ Live site deployed with new UI!")
+        print("✅ Live site deployed successfully!")
     except Exception as e:
         print(f"⚠️ Git deploy note: {e}")
 
@@ -375,7 +385,7 @@ def run_autonomous_pipeline():
 
     products = agent_discover_products(niche=current_niche, count=2)
     if not products:
-        print("⚠️ No products found in this cycle. Will retry in next loop.")
+        print("⚠️ No products retrieved this cycle. Skipping to next loop.")
         return
 
     os.makedirs("generated_articles", exist_ok=True)
@@ -392,7 +402,7 @@ def run_autonomous_pipeline():
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(full_html)
-        print(f"💾 Article saved with full UI: {file_path}")
+        print(f"💾 Article saved with standalone UI: {file_path}")
 
     update_homepage()
     deploy_to_github()
