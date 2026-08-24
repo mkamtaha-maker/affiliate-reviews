@@ -16,26 +16,25 @@
         .brand span { color: var(--primary); }
         .nav-badge { background: #eff6ff; color: var(--primary); font-weight: 700; font-size: 0.85rem; padding: 0.35rem 0.85rem; border-radius: 9999px; border: 1px solid #bfdbfe; }
 
-        .hero-section { text-align: center; padding: 4rem 1.5rem 3rem; background: #fff; border-bottom: 1px solid var(--border); }
-        .hero-section h1 { font-size: 2.8rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; letter-spacing: -0.025em; }
+        .hero-section { text-align: center; padding: 4.5rem 1.5rem 3.5rem; background: #fff; border-bottom: 1px solid var(--border); }
+        .hero-section h1 { font-size: 2.9rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; letter-spacing: -0.025em; }
         .hero-section p { font-size: 1.15rem; color: #64748b; max-width: 620px; margin: 0 auto; }
 
         .container { max-width: 1200px; margin: 3.5rem auto; padding: 0 1.5rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
         
-        .card { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.08); }
+        .card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.08); border-color: #cbd5e1; }
         
-        .card-thumb { position: relative; height: 210px; width: 100%; overflow: hidden; }
-        .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .card-thumb .badge { position: absolute; top: 12px; left: 12px; background: rgba(15, 23, 42, 0.85); color: #fff; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+        .badge { background: #eff6ff; color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; }
+        .rating { font-weight: 700; font-size: 0.85rem; color: #d97706; }
         
-        .card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .card-content h3 { font-size: 1.25rem; color: var(--dark); font-weight: 700; margin-bottom: 0.75rem; }
-        .card-content p { color: #64748b; font-size: 0.92rem; margin-bottom: 1.5rem; }
+        .card-content h3 { font-size: 1.3rem; color: var(--dark); font-weight: 700; margin-bottom: 0.75rem; line-height: 1.4; }
+        .card-content p { color: #64748b; font-size: 0.95rem; margin-bottom: 1.75rem; }
         
-        .btn { display: inline-block; padding: 0.75rem 1.25rem; background: var(--primary); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; text-align: center; transition: background 0.2s; }
-        .btn:hover { background: #1d4ed8; }
+        .btn { display: block; padding: 0.85rem 1.25rem; background: #f8fafc; color: var(--dark); text-decoration: none; border-radius: 8px; font-weight: 700; text-align: center; border: 1px solid var(--border); transition: all 0.2s; }
+        .btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
         
         footer { text-align: center; padding: 3rem 1.5rem; color: #94a3b8; font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 4rem; background: #fff; }
     </style>
@@ -53,80 +52,80 @@
 
     <section class="hero-section">
         <h1>Smart Product Reviews & Guides</h1>
-        <p>Unbiased, data-driven buying recommendations tailored for UK consumers and smart shoppers.</p>
+        <p>Unbiased, data-driven buying recommendations and tech evaluations tailored for the UK market.</p>
     </section>
 
     <main class="container">
         <div class="grid">
         <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Insta360 X4 360 Action Camera" loading="lazy">
-                <span class="badge">In-Depth Review</span>
+            <div class="card-top">
+                <span class="badge">Motorcycle Gear</span>
+                <span class="rating">★ 4.8/5</span>
             </div>
             <div class="card-content">
-                <h3>Insta360 X4 360 Action Camera</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Insta360 X4 360 Action Camera.html" class="btn">Read Full Review &rarr;</a>
+                <h3>Shoei RF-1400 Full Face Motorcycle Helme</h3>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
+                <a href="generated_articles/Shoei RF-1400 Full Face Motorcycle Helme.html" class="btn">Read Full Review &rarr;</a>
             </div>
         </article>
         
         <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/262024/pexels-photo-262024.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Shoei Neotec 3 Flip Up Motorcycle Helmet" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Shoei Neotec 3 Flip Up Motorcycle Helmet</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei Neotec 3 Flip Up Motorcycle Helmet.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Insta360 X4 8K Waterproof 360 Action Cam" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Insta360 X4 8K Waterproof 360 Action Cam</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Insta360 X4 8K Waterproof 360 Action Cam.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/262024/pexels-photo-262024.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Shoei RF-1400 Full Face Helmet" loading="lazy">
-                <span class="badge">In-Depth Review</span>
-            </div>
-            <div class="card-content">
-                <h3>Shoei RF-1400 Full Face Helmet</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei RF-1400 Full Face Helmet.html" class="btn">Read Full Review &rarr;</a>
-            </div>
-        </article>
-        
-        <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Insta360 X4 8K 360 Action Camera" loading="lazy">
-                <span class="badge">In-Depth Review</span>
+            <div class="card-top">
+                <span class="badge">Action Cam</span>
+                <span class="rating">★ 4.8/5</span>
             </div>
             <div class="card-content">
                 <h3>Insta360 X4 8K 360 Action Camera</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
                 <a href="generated_articles/Insta360 X4 8K 360 Action Camera.html" class="btn">Read Full Review &rarr;</a>
             </div>
         </article>
         
         <article class="card">
-            <div class="card-thumb">
-                <img src="https://images.pexels.com/photos/262024/pexels-photo-262024.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Shoei RF-1400 Full Face Motorcycle Helme" loading="lazy">
-                <span class="badge">In-Depth Review</span>
+            <div class="card-top">
+                <span class="badge">Motorcycle Gear</span>
+                <span class="rating">★ 4.8/5</span>
             </div>
             <div class="card-content">
-                <h3>Shoei RF-1400 Full Face Motorcycle Helme</h3>
-                <p>Complete UK buyer's guide, lab testing results, price analysis, and long-term verdict.</p>
-                <a href="generated_articles/Shoei RF-1400 Full Face Motorcycle Helme.html" class="btn">Read Full Review &rarr;</a>
+                <h3>Shoei RF-1400 Full Face Helmet</h3>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
+                <a href="generated_articles/Shoei RF-1400 Full Face Helmet.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        
+        <article class="card">
+            <div class="card-top">
+                <span class="badge">Action Cam</span>
+                <span class="rating">★ 4.8/5</span>
+            </div>
+            <div class="card-content">
+                <h3>Insta360 X4 8K Waterproof 360 Action Cam</h3>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
+                <a href="generated_articles/Insta360 X4 8K Waterproof 360 Action Cam.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        
+        <article class="card">
+            <div class="card-top">
+                <span class="badge">Motorcycle Gear</span>
+                <span class="rating">★ 4.8/5</span>
+            </div>
+            <div class="card-content">
+                <h3>Shoei Neotec 3 Flip Up Motorcycle Helmet</h3>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
+                <a href="generated_articles/Shoei Neotec 3 Flip Up Motorcycle Helmet.html" class="btn">Read Full Review &rarr;</a>
+            </div>
+        </article>
+        
+        <article class="card">
+            <div class="card-top">
+                <span class="badge">Action Cam</span>
+                <span class="rating">★ 4.8/5</span>
+            </div>
+            <div class="card-content">
+                <h3>Insta360 X4 360 Action Camera</h3>
+                <p>Complete UK buyer's guide, lab testing analysis, pros & cons, and long-term verdict.</p>
+                <a href="generated_articles/Insta360 X4 360 Action Camera.html" class="btn">Read Full Review &rarr;</a>
             </div>
         </article>
         </div>
