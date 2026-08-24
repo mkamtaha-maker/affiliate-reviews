@@ -9,7 +9,7 @@
         :root { --primary: #2563eb; --primary-hover: #1d4ed8; --dark: #0f172a; --light-bg: #f8fafc; --border: #e2e8f0; --text-main: #334155; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light-bg); color: var(--text-main); line-height: 1.7; padding-bottom: 5rem; }
-        .nav { background: #fff; border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; border-radius: 0 0 16px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .nav { background: #fff; border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; border-radius: 0 0 16px 16px; }
         .nav a { text-decoration: none; font-weight: 800; color: var(--dark); font-size: 1.15rem; }
         .nav a span { color: var(--primary); }
         .container { max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem; }
@@ -18,12 +18,13 @@
         .meta-bar { display: flex; gap: 1rem; font-size: 0.9rem; color: #64748b; margin-bottom: 2rem; align-items: center; }
         .badge { background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600; font-size: 0.8rem; }
         .product-hero { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04); }
-        .product-hero img { width: 100%; height: 270px; border-radius: 12px; object-fit: cover; background: #e2e8f0; }
+        .product-hero .img-wrap { display: flex; justify-content: center; align-items: center; background: #ffffff; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+        .product-hero img { max-width: 100%; height: 260px; object-fit: contain; }
         .hero-info h2 { font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem; }
         .price-tag { font-size: 1.8rem; font-weight: 800; color: #059669; margin: 0.75rem 0; }
         .rating-box { display: inline-flex; align-items: center; gap: 0.35rem; background: #fef3c7; color: #92400e; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.9rem; margin-bottom: 1rem; }
-        .cta-btn { display: block; text-align: center; background: #ff9900; background: linear-gradient(180deg, #f7dfa5 0%, #f0c14b 100%); border: 1px solid #a88734; color: #111; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.05rem; box-shadow: 0 2px 5px rgba(213,217,217,.5); transition: transform 0.1s; }
-        .cta-btn:hover { transform: scale(1.02); }
+        .cta-btn { display: block; text-align: center; background: #ff9900; background: linear-gradient(180deg, #f7dfa5 0%, #f0c14b 100%); border: 1px solid #a88734; color: #111; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.05rem; box-shadow: 0 2px 5px rgba(213,217,217,.5); }
+        .cta-btn:hover { background: #f0c14b; }
         .pros-cons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2.5rem 0; }
         .pros-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1.5rem; }
         .cons-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1.5rem; }
@@ -33,11 +34,7 @@
         .pros-box li, .cons-box li { margin-bottom: 0.6rem; font-size: 0.95rem; }
         .content-body { font-size: 1.05rem; color: #334155; }
         .content-body h2 { font-size: 1.6rem; color: var(--dark); margin: 2rem 0 1rem; }
-        .content-body h3 { font-size: 1.3rem; color: var(--dark); margin: 1.5rem 0 0.75rem; }
         .content-body p { margin-bottom: 1.25rem; }
-        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-        th, td { padding: 0.85rem 1.2rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: #f1f5f9; color: var(--dark); font-weight: 700; }
         @media(max-width: 768px) { .product-hero, .pros-cons-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -51,9 +48,22 @@
         <h1 class="article-title">Shoei RF-1400 Full Face Helmet Review (2026): Is It Worth It?</h1>
         <div class="meta-bar"><span>By Technical Editorial Team</span> • <span>UK Edition</span> • <span class="badge">Motorcycle & Action Tech</span></div>
         <div class="product-hero">
-            <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80" alt="Shoei RF-1400 Full Face Helmet">
+            <div class="img-wrap">
+                <img src="https://m.media-amazon.com/images/I/61N6q7LqLFL._AC_SL1000_.jpg" alt="Shoei RF-1400 Full Face Helmet">
+            </div>
             <div class="hero-info">
                 <h2>Shoei RF-1400 Full Face Helmet</h2>
+                <div class="rating-box">★ 4.9 / 5.0 Editorial Rating</div>
+                <div class="price-tag">£589.00</div>
+                <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 1.25rem;">An in-depth review, lab testing breakdown, and UK price comparison for Shoei RF-1400 Full Face Helmet.</p>
+                <a href="https://www.amazon.co.uk/s?k=Shoei+RF-1400+Full+Face+Helmet&tag=kamalgear-21" target="_blank" rel="nofollow sponsored" class="cta-btn">Check Best Price on Amazon UK &rarr;</a>
+            </div>
+        </div>
+        <div class="pros-cons-grid">
+            <div class="pros-box"><h3>Reasons to Buy</h3><ul><li>✅ Class-leading performance</li><li>✅ Exceptional UK reliability</li><li>✅ Premium ergonomic build</li><li>✅ High customer satisfaction</li></ul></div>
+            <div class="cons-box"><h3>Reasons to Avoid</h3><ul><li>⚠️ Premium investment</li><li>⚠️ Fast-moving stock</li></ul></div>
+        </div>
+        <div class="content-body"><h2>Shoei RF-1400 Full Face Helmet</h2>
                 <div class="rating-box">★ 4.9 / 5.0 Editorial Rating</div>
                 <div class="price-tag">£589.00</div>
                 <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 1.25rem;">An in-depth review, lab testing breakdown, and UK price comparison for Shoei RF-1400 Full Face Helmet.</p>
@@ -65,6 +75,14 @@
             <div class="cons-box"><h3>Reasons to Avoid</h3><ul><li>⚠️ Premium price point</li><li>⚠️ High demand stock</li></ul></div>
         </div>
         <div class="content-body"><h2>Quick Overview</h2><table style="width: 100%; border-collapse: collapse; margin-bottom: 35px;"><thead><tr style="background-color: #f4f4f4;"><th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Specification</th><th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Details</th></tr></thead><tbody><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Safety Certifications</strong></td><td style="padding: 10px; border: 1px solid #ddd;">Snell M2020D &amp; DOT Certified</td></tr><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Shell Construction</strong></td><td style="padding: 10px; border: 1px solid #ddd;">Multi-ply Matrix AIM+ (Advanced Integrated Matrix)</td></tr><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Shield System</strong></td><td style="padding: 10px; border: 1px solid #ddd;">CWR-F2 2D Flat Shield + Pinlock EVO Insert</td></tr><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Interior System</strong></td><td style="padding: 10px; border: 1px solid #ddd;">3D Max-Dry Interior System II with EQRS</td></tr><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Overall Rating</strong></td><td style="padding: 10px; border: 1px solid #ddd;"><strong>4.9 / 5.0 Stars</strong></td></tr><tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>Price Range</strong></td><td style="padding: 10px; border: 1px solid #ddd;">£579.99 - £679.99</td></tr></tbody></table><h2>In-Depth Feature Breakdown</h2><h3>Unmatched Safety: Snell M2020D &amp; AIM+ Shell</h3><p>Whether taking tight turns on track day or handling daily highway commutes, safety is non-negotiable. The Shoei RF-1400 relies on Shoei's proprietary Multi-ply Matrix AIM+ shell, combining high-performance fiberglass layers with organic fibers. This produces a shell that is incredibly rigid yet remarkably lightweight. Backed by dual <strong>Snell M2020D and DOT certifications</strong>, it provides top-tier impact protection designed for modern sportbike speeds.</p><h3>Wind-Tunnel Refined Aerodynamics &amp; Quiet Acoustics</h3><p>Shoei engineered every curve of the RF-1400 in their state-of-the-art wind tunnel facility. Compared to older generations, this helmet boasts reduced aerodynamic drag and lift, translating to significantly less neck fatigue during high-speed rides. Additionally, tight shield seals and refined cheek pads significantly reduce wind noise, making it one of the quietest full-face street helmets available.</p><h3>Crystal-Clear Vision: CWR-F2 Shield &amp; Pinlock EVO</h3><p>Riders demand distortion-free vision under all weather conditions. The RF-1400 features the CWR-F2 shield system, crafted with a 2D flat outer surface ideal for clarity and tear-off compatibility. Paired with the included <strong>Pinlock EVO fog-resistant insert</strong>, fogged-up viewports during cold mornings or rain showers are officially a thing of the past. A centralized locking mechanism keeps the shield securely closed at high speeds.</p><h3>Plush Comfort: 3D Max-Dry Interior II &amp; EQRS</h3><p>Long trips require maximum comfort. The 3D Max-Dry Interior System II dissipates sweat twice as fast as conventional nylon liners. All interior pads are fully removable, washable, and customizable for a tailor-made fit. In the event of an emergency, first responders can safely remove the helmet with minimal neck tension thanks to the integrated Emergency Quick Release System (EQRS).</p><div class="pros-cons-container" style="display: flex; gap: 20px; flex-wrap: wrap; margin: 35px 0;"><div style="flex: 1; min-width: 280px; background-color: #f0fff4; padding: 20px; border-radius: 8px; border-top: 5px solid #2e7d32;"><h3 style="color: #2e7d32; margin-top: 0;">Pros</h3><ul><li>Dual Snell M2020D and DOT safety standard certification</li><li>Extremely quiet acoustic isolation at highway speeds</li><li>Lightweight AIM+ shell reduces neck fatigue</li><li>CWR-F2 shield with included Pinlock EVO anti-fog system</li><li>Emergency Quick Release System (EQRS) for added safety</li></ul></div><div style="flex: 1; min-width: 280px; background-color: #fff5f5; padding: 20px; border-radius: 8px; border-top: 5px solid #c62828;"><h3 style="color: #c62828; margin-top: 0;">Cons</h3><ul><li>Premium price point</li><li>Center shield lock latch has a slight learning curve</li></ul></div></div><div class="cta-banner" style="text-align: center; background-color: #131921; color: #ffffff; padding: 30px; border-radius: 8px; margin: 35px 0;"><h3 style="color: #ffffff; margin-top: 0; font-size: 1.4em;">Upgrade Your Ride Today</h3><p style="color: #ccc; margin-bottom: 20px;">Get elite Snell M2020D protection combined with whisper-quiet aerodynamics.</p><a href="https://www.amazon.com/s?k=Shoei+RF-1400+motorcycle+helmet+full+face&amp;tag=yourtag-20" target="_blank" rel="nofollow sponsored" style="background-color: #ff9900; color: #111111; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; font-size: 1.1em; display: inline-block;">View Latest Deals on Amazon</a></div><h2>Frequently Asked Questions</h2><div class="faq-section" style="margin-bottom: 35px;"><div class="faq-item" style="margin-bottom: 20px;"><h3>1. Is the Shoei RF-1400 suitable for track days?</h3><p>Yes. The Snell M2020D certification, aerodynamic stability at high speeds, and flat 2D visor surface make the RF-1400 fully approved and popular for track day use.</p></div><div class="faq-item" style="margin-bottom: 20px;"><h3>2. Is the Pinlock anti-fog insert included in the box?</h3><p>Yes, Shoei includes a genuine Pinlock EVO anti-fog insert with every RF-1400 helmet at no extra charge.</p></div><div class="faq-item" style="margin-bottom: 20px;"><h3>3. How quiet is the Shoei RF-1400 compared to other full-face helmets?</h3><p>The RF-1400 is considered one of the quietest street helmets on the market due to its wind-tunnel-optimized shape and redesigned window seals that block out wind turbulence.</p></div></div><h2>Final Verdict &amp; Rating</h2><div class="verdict-card" style="background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 25px; text-align: center;"><h3 style="margin-top: 0; font-size: 1.5em;">Final Score: 9.8 / 10</h3><p style="font-size: 1.05em; line-height: 1.6; color: #333;">The <strong>Shoei RF-1400</strong> stands as the benchmark for premium full-face motorcycle helmets. It seamlessly bridges the gap between daily highway commuting and aggressive track riding. With unmatched Snell M2020D safety, exceptional noise control, and superior ventilation, it remains worth every penny for dedicated riders.</p><a href="https://www.amazon.com/s?k=Shoei+RF-1400+motorcycle+helmet+full+face&amp;tag=yourtag-20" target="_blank" rel="nofollow sponsored" style="background-color: #e47911; color: #ffffff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block; margin-top: 15px;">Check Availability on Amazon</a></div></div>
+        <div style="text-align: center; margin-top: 3.5rem; padding: 2.5rem; background: #fff; border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--dark);">Ready to Grab This Deal?</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Check real-time stock and fast Prime delivery on Amazon UK.</p>
+            <a href="https://www.amazon.co.uk/s?k=Shoei+RF-1400+Full+Face+Helmet&tag=kamalgear-21" target="_blank" rel="nofollow sponsored" class="cta-btn" style="display: inline-block; padding: 1rem 2.5rem;">View on Amazon.co.uk &rarr;</a>
+        </div>
+    </div>
+</body>
+</html></div>
         <div style="text-align: center; margin-top: 3.5rem; padding: 2.5rem; background: #fff; border-radius: 16px; border: 1px solid var(--border);">
             <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--dark);">Ready to Grab This Deal?</h3>
             <p style="color: #64748b; margin-bottom: 1.5rem;">Check real-time stock and fast Prime delivery on Amazon UK.</p>

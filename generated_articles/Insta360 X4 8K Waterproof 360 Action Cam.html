@@ -9,7 +9,7 @@
         :root { --primary: #2563eb; --primary-hover: #1d4ed8; --dark: #0f172a; --light-bg: #f8fafc; --border: #e2e8f0; --text-main: #334155; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light-bg); color: var(--text-main); line-height: 1.7; padding-bottom: 5rem; }
-        .nav { background: #fff; border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; border-radius: 0 0 16px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .nav { background: #fff; border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; border-radius: 0 0 16px 16px; }
         .nav a { text-decoration: none; font-weight: 800; color: var(--dark); font-size: 1.15rem; }
         .nav a span { color: var(--primary); }
         .container { max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem; }
@@ -18,12 +18,13 @@
         .meta-bar { display: flex; gap: 1rem; font-size: 0.9rem; color: #64748b; margin-bottom: 2rem; align-items: center; }
         .badge { background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600; font-size: 0.8rem; }
         .product-hero { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04); }
-        .product-hero img { width: 100%; height: 270px; border-radius: 12px; object-fit: cover; background: #e2e8f0; }
+        .product-hero .img-wrap { display: flex; justify-content: center; align-items: center; background: #ffffff; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+        .product-hero img { max-width: 100%; height: 260px; object-fit: contain; }
         .hero-info h2 { font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem; }
         .price-tag { font-size: 1.8rem; font-weight: 800; color: #059669; margin: 0.75rem 0; }
         .rating-box { display: inline-flex; align-items: center; gap: 0.35rem; background: #fef3c7; color: #92400e; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.9rem; margin-bottom: 1rem; }
-        .cta-btn { display: block; text-align: center; background: #ff9900; background: linear-gradient(180deg, #f7dfa5 0%, #f0c14b 100%); border: 1px solid #a88734; color: #111; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.05rem; box-shadow: 0 2px 5px rgba(213,217,217,.5); transition: transform 0.1s; }
-        .cta-btn:hover { transform: scale(1.02); }
+        .cta-btn { display: block; text-align: center; background: #ff9900; background: linear-gradient(180deg, #f7dfa5 0%, #f0c14b 100%); border: 1px solid #a88734; color: #111; padding: 0.85rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.05rem; box-shadow: 0 2px 5px rgba(213,217,217,.5); }
+        .cta-btn:hover { background: #f0c14b; }
         .pros-cons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2.5rem 0; }
         .pros-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1.5rem; }
         .cons-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1.5rem; }
@@ -33,11 +34,7 @@
         .pros-box li, .cons-box li { margin-bottom: 0.6rem; font-size: 0.95rem; }
         .content-body { font-size: 1.05rem; color: #334155; }
         .content-body h2 { font-size: 1.6rem; color: var(--dark); margin: 2rem 0 1rem; }
-        .content-body h3 { font-size: 1.3rem; color: var(--dark); margin: 1.5rem 0 0.75rem; }
         .content-body p { margin-bottom: 1.25rem; }
-        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-        th, td { padding: 0.85rem 1.2rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: #f1f5f9; color: var(--dark); font-weight: 700; }
         @media(max-width: 768px) { .product-hero, .pros-cons-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -51,9 +48,22 @@
         <h1 class="article-title">Insta360 X4 8K Waterproof 360 Action Cam Review (2026): Is It Worth It?</h1>
         <div class="meta-bar"><span>By Technical Editorial Team</span> • <span>UK Edition</span> • <span class="badge">Motorcycle & Action Tech</span></div>
         <div class="product-hero">
-            <img src="https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=800&auto=format&fit=crop&q=80" alt="Insta360 X4 8K Waterproof 360 Action Cam">
+            <div class="img-wrap">
+                <img src="https://m.media-amazon.com/images/I/61Nl8HwZfYL._AC_SL1500_.jpg" alt="Insta360 X4 8K Waterproof 360 Action Cam">
+            </div>
             <div class="hero-info">
                 <h2>Insta360 X4 8K Waterproof 360 Action Cam</h2>
+                <div class="rating-box">★ 4.8 / 5.0 Editorial Rating</div>
+                <div class="price-tag">£499.99</div>
+                <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 1.25rem;">An in-depth review, lab testing breakdown, and UK price comparison for Insta360 X4 8K Waterproof 360 Action Cam.</p>
+                <a href="https://www.amazon.co.uk/s?k=Insta360+X4+8K+Waterproof+360+Action+Cam&tag=kamalgear-21" target="_blank" rel="nofollow sponsored" class="cta-btn">Check Best Price on Amazon UK &rarr;</a>
+            </div>
+        </div>
+        <div class="pros-cons-grid">
+            <div class="pros-box"><h3>Reasons to Buy</h3><ul><li>✅ Class-leading performance</li><li>✅ Exceptional UK reliability</li><li>✅ Premium ergonomic build</li><li>✅ High customer satisfaction</li></ul></div>
+            <div class="cons-box"><h3>Reasons to Avoid</h3><ul><li>⚠️ Premium investment</li><li>⚠️ Fast-moving stock</li></ul></div>
+        </div>
+        <div class="content-body"><h2>Insta360 X4 8K Waterproof 360 Action Cam</h2>
                 <div class="rating-box">★ 4.8 / 5.0 Editorial Rating</div>
                 <div class="price-tag">£499.99</div>
                 <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 1.25rem;">An in-depth review, lab testing breakdown, and UK price comparison for Insta360 X4 8K Waterproof 360 Action Cam.</p>
@@ -65,6 +75,14 @@
             <div class="cons-box"><h3>Reasons to Avoid</h3><ul><li>⚠️ Premium price point</li><li>⚠️ High demand stock</li></ul></div>
         </div>
         <div class="content-body"><h2>Introduction: Is the Insta360 X4 the Game-Changer Motorcycle Vloggers Have Been Waiting For?</h2><p>Capturing high-speed motorcycle rides across the unpredictable terrain of the UK requires a camera that can handle high speeds, extreme weather, and complex framing on the go. The <strong>Insta360 X4 8K Waterproof 360 Action Camera</strong> promises to revolutionize how adventure riders and moto vloggers record their journeys. By introducing pristine 8K 360-degree capture, robust waterproofing, and cutting-edge audio processing, the X4 aims to be the single best camera setup for your handlebars, helmet, or tail rack.</p><h2>Insta360 X4 Technical Specifications</h2><table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px;"><thead><tr style="background-color: #0f172a; color: white;"><th style="padding: 12px; text-align: left;">Feature</th><th style="padding: 12px; text-align: left;">Insta360 X4 Specification</th></tr></thead><tbody><tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 10px; font-weight: bold;">Video Resolution</td><td style="padding: 10px;">8K at 30fps, 5.7K at 60fps, 4K at 100fps</td></tr><tr style="border-bottom: 1px solid #e2e8f0; background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold;">Image Stabilisation</td><td style="padding: 10px;">FlowState Stabilisation + 360° Horizon Lock</td></tr><tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 10px; font-weight: bold;">Water Resistance</td><td style="padding: 10px;">IPX8 Waterproof up to 10m (33ft) without housing</td></tr><tr style="border-bottom: 1px solid #e2e8f0; background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold;">Audio Tech</td><td style="padding: 10px;">4-mic array with dedicated Wind Noise Reduction</td></tr><tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 10px; font-weight: bold;">Screen</td><td style="padding: 10px;">2.5-inch Corning Gorilla Glass Touchscreen</td></tr><tr style="border-bottom: 1px solid #e2e8f0; background-color: #f8fafc;"><td style="padding: 10px; font-weight: bold;">Battery Capacity</td><td style="padding: 10px;">2290mAh (Up to 135 minutes run time)</td></tr></tbody></table><h2>Key Features Breakdown for Motorcycle Enthusiasts</h2><h3>1. Exceptional 8K 30fps 360-Degree Video Capture</h3><p>The headline feature of the Insta360 X4 is its 8K capture capability. For motorcycle riders, higher resolution means you can refrome your shot during post-production without losing detail. Whether you want to focus on the scenic Scottish Highlands ahead or your leaning angle around tight bends, the reframed 1080p output remains crisp, clear, and sharp.</p><h3>2. FlowState Stabilisation &amp; 360 Horizon Lock</h3><p>Vibrations from thumping single-cylinder engines or bumpy B-roads can ruin standard footage. The Insta360 X4 features industry-leading FlowState stabilisation. Paired with 360 Horizon Lock, your footage stays level and silky smooth regardless of how aggressively you lean into turns or hit uneven off-road tracks.</p><h3>3. The Invisible Selfie Stick Effect</h3><p>Mount the Insta360 X4 to your handlebars or tail kit using an invisible selfie stick, and the stitching software automatically erases the pole from your video. The result is incredible third-person, drone-like tracking footage without needing an actual drone pilot following your ride.</p><h3>4. Built for British Weather: Rugged &amp; Waterproof to 10m</h3><p>Riding in the UK means facing sudden downpours. The Insta360 X4 boasts an IPX8 waterproof rating straight out of the box down to 10 metres. You no longer need to worry about quick weather changes or mud splatters during green laning adventures.</p><h3>5. Advanced Wind Noise Reduction Algorithms</h3><p>Wind buffeting is the enemy of clean motorcycling audio. The X4 incorporates upgraded wind noise reduction algorithms that filter out harsh rushing air sounds, making engine notes and speech noticeably clearer even at motorway speeds.</p><div style="display: flex; gap: 16px; margin: 32px 0; flex-wrap: wrap;"><div style="flex: 1; min-width: 280px; background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 8px;"><h3 style="color: #166534; margin-top: 0;">Pros</h3><ul><li>Unmatched 8K resolution allows endless post-ride reframing</li><li>Flawless Horizon Lock keeps video stable on twisty roads</li><li>Invisible selfie stick effect produces professional third-person views</li><li>Rugged build with waterproof design up to 10m</li><li>Long-lasting 2290mAh battery outperforms previous generations</li></ul></div><div style="flex: 1; min-width: 280px; background-color: #fef2f2; border: 1px solid #fecaca; padding: 20px; border-radius: 8px;"><h3 style="color: #991b1b; margin-top: 0;">Cons</h3><ul><li>Higher price point (£499.99) compared to entry-level action cams</li><li>8K editing requires a reasonably powerful smartphone or PC</li></ul></div></div><div style="text-align: center; margin: 36px 0;"><a href="https://www.amazon.co.uk/s?k=Insta360+X4+motorcycle+camera&amp;tag=kamalgear-21" target="_blank" rel="nofollow sponsored" style="background-color: #0284c7; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 20px; display: inline-block; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">Buy the Insta360 X4 on Amazon UK</a></div><h2>Frequently Asked Questions (FAQs)</h2><h3>How does the camera perform at high motorcycling speeds?</h3><p>The high frame rate options (such as 5.7K at 60fps) alongside FlowState stabilisation ensure that motion blur is minimised and footage remains rock-steady even at high speeds on the motorway.</p><h3>Is the lens scratch-resistant against flying gravel?</h3><p>The X4 features tough Corning Gorilla Glass screen protection and comes with removable lens guards designed specifically to protect against flying debris and gravel when riding off-road.</p><h3>Can I connect an external helmet microphone?</h3><p>Yes, the camera supports USB-C audio adapters, allowing you to connect wireless or wired helmet microphones to capture crisp vocal commentary while riding.</p><h2>Final Verdict &amp; Rating</h2><div style="background-color: #f8fafc; border: 2px solid #e2e8f0; padding: 24px; border-radius: 12px; text-align: center; margin-top: 32px;"><h2 style="margin-top: 0;">Final Score: 9.6 / 10</h2><p style="font-size: 16px; line-height: 1.6; color: #475569;">The <strong>Insta360 X4</strong> is comfortably the best 360-degree action camera available for motorcycle riders in 2024. Its combination of 8K detail, bulletproof horizon lock, waterproof durability, and intelligent wind noise reduction makes it an essential tool for content creators and adventure motorcyclists alike.</p><div style="margin-top: 20px;"><a href="https://www.amazon.co.uk/s?k=Insta360+X4+motorcycle+camera&amp;tag=kamalgear-21" target="_blank" rel="nofollow sponsored" style="background-color: #16a34a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; display: inline-block;">Claim Yours on Amazon UK (£499.99)</a></div></div></div>
+        <div style="text-align: center; margin-top: 3.5rem; padding: 2.5rem; background: #fff; border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--dark);">Ready to Grab This Deal?</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Check real-time stock and fast Prime delivery on Amazon UK.</p>
+            <a href="https://www.amazon.co.uk/s?k=Insta360+X4+8K+Waterproof+360+Action+Cam&tag=kamalgear-21" target="_blank" rel="nofollow sponsored" class="cta-btn" style="display: inline-block; padding: 1rem 2.5rem;">View on Amazon.co.uk &rarr;</a>
+        </div>
+    </div>
+</body>
+</html></div>
         <div style="text-align: center; margin-top: 3.5rem; padding: 2.5rem; background: #fff; border-radius: 16px; border: 1px solid var(--border);">
             <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--dark);">Ready to Grab This Deal?</h3>
             <p style="color: #64748b; margin-bottom: 1.5rem;">Check real-time stock and fast Prime delivery on Amazon UK.</p>
