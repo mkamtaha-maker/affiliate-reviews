@@ -28,6 +28,15 @@ NICHES_LIST = [
     "Wireless Noise-Canceling Gaming Headsets"
 ]
 
+TECH_IMAGES = [
+    "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=800&auto=format&fit=crop&q=80"
+]
+
 niche_cycle = itertools.cycle(NICHES_LIST)
 client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -57,7 +66,7 @@ class SEOArticle(BaseModel):
 
 
 # ==========================================
-# 3. Product Discovery & SEO Review Generator
+# 3. Product Discovery & SEO Generator
 # ==========================================
 def agent_discover_products(niche: str, count: int = 2) -> list:
     print(f"\n🔍 [Step 1] Exploring niche: '{niche}' (Fetching top {count} products)...")
@@ -88,13 +97,10 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
             result = json.loads(response.text)
             products = result.get("products", [])
 
-            for prod in products:
+            for idx, prod in enumerate(products):
                 query_formatted = urllib.parse.quote_plus(prod["search_query"])
                 prod["affiliate_link"] = f"https://www.amazon.co.uk/s?k={query_formatted}&tag={AFFILIATE_TAG}"
-                clean_keyword = urllib.parse.quote(prod["name"].split()[0] + "," + prod["category"].split()[0])
-                prod["image_url"] = f"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
-                # Using high-quality product images via keyword redirection
-                prod["image_url"] = f"https://source.unsplash.com/800x600/?{clean_keyword}"
+                prod["image_url"] = TECH_IMAGES[idx % len(TECH_IMAGES)]
 
             return products
         except Exception as e:
@@ -151,9 +157,6 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
     """Wraps article content inside a modern, conversion-optimized standalone webpage."""
     pros_html = "".join([f"<li>✅ {p}</li>" for p in article_data.get("pros", [])])
     cons_html = "".join([f"<li>⚠️ {c}</li>" for c in article_data.get("cons", [])])
-    
-    clean_keyword = urllib.parse.quote(product_data['name'].split()[0])
-    dynamic_img = f"https://source.unsplash.com/800x600/?{clean_keyword},tech"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -234,7 +237,7 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
         </div>
 
         <div class="product-hero">
-            <img src="{dynamic_img}" alt="{product_data['name']}">
+            <img src="{product_data['image_url']}" alt="{product_data['name']}">
             <div class="hero-info">
                 <h2>{product_data['name']}</h2>
                 <div class="rating-box">★ {article_data.get('rating', 4.8)} / 5.0 Editorial Rating</div>
@@ -274,15 +277,14 @@ def build_article_html(article_data: dict, product_data: dict) -> str:
 
 
 def update_homepage():
-    """Builds a magazine-style homepage with unique dynamic imagery for each card."""
+    """Builds a magazine-style homepage with high-res active images."""
     articles = glob.glob("generated_articles/*.html")
     cards_html = ""
 
-    for article in sorted(articles, key=os.path.getmtime, reverse=True):
+    for idx, article in enumerate(sorted(articles, key=os.path.getmtime, reverse=True)):
         filename = os.path.basename(article)
         clean_name = filename.replace(".html", "")
-        clean_keyword = urllib.parse.quote(clean_name.split()[0])
-        img_url = f"https://source.unsplash.com/600x400/?{clean_keyword},gear"
+        img_url = TECH_IMAGES[idx % len(TECH_IMAGES)]
 
         cards_html += f"""
         <article class="card">
@@ -326,7 +328,7 @@ def update_homepage():
         .card {{ background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }}
         .card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.08); }}
         
-        .card-thumb {{ position: relative; height: 190px; width: 100%; overflow: hidden; background: #e2e8f0; }}
+        .card-thumb {{ position: relative; height: 200px; width: 100%; overflow: hidden; background: #e2e8f0; }}
         .card-thumb img {{ width: 100%; height: 100%; object-fit: cover; }}
         .card-thumb .badge {{ position: absolute; top: 12px; left: 12px; background: rgba(15, 23, 42, 0.85); color: #fff; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }}
 
@@ -361,7 +363,7 @@ def update_homepage():
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("🏠 Premium homepage 'index.html' updated with diverse images.")
+    print("🏠 Premium homepage 'index.html' updated with high-res active images.")
 
 
 def deploy_to_github():
@@ -369,7 +371,7 @@ def deploy_to_github():
     print("🚀 Pushing updates to GitHub Pages...")
     try:
         subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", f"UI and Dynamic Image Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "commit", "-m", f"UI and Image Update: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         print("✅ Live site deployed successfully!")
     except Exception as e:
@@ -410,7 +412,10 @@ def run_autonomous_pipeline():
 
 
 if __name__ == "__main__":
-    run_autonomous_pipeline()
+    # تشغيل تحديث فوري للواجهة ثم بدء الجدولة
+    update_homepage()
+    deploy_to_github()
+
     schedule.every(24).hours.do(run_autonomous_pipeline)
 
     print("\n⏳ Autonomous agent is running. Press Ctrl+C to stop.")
