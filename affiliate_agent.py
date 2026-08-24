@@ -1,26 +1,22 @@
 import base64
+import glob
 import itertools
 import json
 import os
+import subprocess
 import time
-import requests
 import schedule
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-# Load environment variables
 load_dotenv()
 
 # ==========================================
-# 1. Configurations & Credentials
+# 1. Configurations
 # ==========================================
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-AFFILIATE_TAG = "yourtag-20"
-
-WP_SITE_URL = os.environ.get("WP_SITE_URL", "https://yourwebsite.com")
-WP_USERNAME = os.environ.get("WP_USERNAME", "your_username")
-WP_APP_PASSWORD = os.environ.get("WP_APP_PASSWORD", "xxxx xxxx xxxx xxxx")
+AFFILIATE_TAG = "yourtag-20"  # ضع كود تتبع أمازون الخاص بك هنا
 
 NICHES_LIST = [
     "Motorcycle Action Cameras and Helmets",
@@ -35,11 +31,10 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # ==========================================
-# 2. Step 1: Product Discovery
+# 2. Product Discovery & SEO Writing
 # ==========================================
 def agent_discover_products(niche: str, count: int = 2) -> list:
     print(f"\n🔍 [Step 1] Exploring niche: '{niche}' (Fetching top {count} products)...")
-
     prompt = f"""
     You are an expert e-commerce product researcher.
     Identify the top {count} trending, best-selling products in the niche: "{niche}".
@@ -47,7 +42,7 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
     For each product, provide:
     1. "name": Exact commercial product title.
     2. "category": Specific category.
-    3. "estimated_price": Approximate retail price range (e.g. "$199.99" or "$299 - $349").
+    3. "estimated_price": Approximate retail price (e.g. "$199.99").
     4. "availability": Stock availability status (e.g. "In Stock (Prime Eligible)").
     5. "features": 4-5 bullet points of actual technical specifications.
     6. "target_audience": Primary users.
@@ -55,126 +50,133 @@ def agent_discover_products(niche: str, count: int = 2) -> list:
 
     Return the result strictly as a JSON list of objects.
     """
-
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.4,
-        )
+        config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0.4)
     )
-
     products = json.loads(response.text)
-    
     for prod in products:
         query_formatted = prod["search_query"].replace(" ", "+")
         prod["affiliate_link"] = f"https://www.amazon.com/s?k={query_formatted}&tag={AFFILIATE_TAG}"
         prod["image_url"] = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&auto=format&fit=crop&q=80"
-
     return products
 
 
-# ==========================================
-# 3. Step 2: SEO Article Generation
-# ==========================================
 def agent_write_seo_review(product_data: dict) -> dict:
     print(f"✍️  [Step 2] Drafting SEO review for: {product_data['name']}...")
-
     prompt = f"""
     You are an elite affiliate copywriter and SEO specialist.
-    Write an exhaustive, high-converting product review article for:
+    Write an exhaustive product review article for:
     Product: {product_data['name']}
-    Category: {product_data['category']}
     Price: {product_data.get('estimated_price', 'Check on Amazon')}
-    Stock Status: {product_data.get('availability', 'In Stock')}
-    Key Features: {product_data['features']}
-    Target Audience: {product_data.get('target_audience', 'Consumers')}
+    Stock: {product_data.get('availability', 'In Stock')}
+    Features: {product_data['features']}
     Affiliate URL: {product_data['affiliate_link']}
     Image URL: {product_data['image_url']}
 
-    Structure the response strictly in JSON format with two keys:
-    - "title": High-CTR SEO title (e.g. "[Product Name] Review: Worth It in 2026?").
-    - "content": Clean, semantic HTML.
-
-    HTML Requirements:
-    1. Top Affiliate Disclosure banner.
-    2. Centered Product Image followed by a Price and Stock status badge.
-    3. Specifications comparison table.
-    4. Features breakdown using <h2> and <h3>.
-    5. Pros and Cons comparison blocks.
-    6. High-contrast CTA buttons linking to the Affiliate URL (target="_blank" rel="nofollow sponsored").
-    7. FAQ section and Final Verdict score.
+    Structure the response strictly in JSON format with keys: "title", "summary", and "content".
+    Ensure "content" is clean semantic HTML including specs table, pros/cons, and high-CTR affiliate buttons.
     """
-
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.7,
-        )
+        config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0.7)
     )
-
     return json.loads(response.text)
 
 
 # ==========================================
-# 4. Step 3: WordPress Publish & Local Save
+# 3. Dynamic Homepage Builder & Git Automation
 # ==========================================
-def agent_publish_or_save(title: str, content: str, product_name: str):
-    # 1. Local HTML Save
-    os.makedirs("generated_articles", exist_ok=True)
-    safe_filename = "".join(c for c in product_name if c.isalnum() or c in (" ", "_", "-")).rstrip()
-    file_path = os.path.join("generated_articles", f"{safe_filename[:40]}.html")
-    
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(f"<h1>{title}</h1>\n\n{content}")
-    print(f"💾 Article saved locally: {file_path}")
+def update_homepage():
+    """Builds a modern, responsive index.html showcasing all generated articles."""
+    articles = glob.glob("generated_articles/*.html")
+    cards_html = ""
 
-    # 2. WordPress REST API upload
-    if "yourwebsite.com" not in WP_SITE_URL:
-        print("🌐 Sending post to WordPress...")
-        api_endpoint = f"{WP_SITE_URL}/wp-json/wp/v2/posts"
-        token = base64.b64encode(f"{WP_USERNAME}:{WP_APP_PASSWORD}".encode("utf-8")).decode("utf-8")
-        headers = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
-        payload = {"title": title, "content": content, "status": "draft"}
+    for article in sorted(articles, key=os.path.getmtime, reverse=True):
+        filename = os.path.basename(article)
+        clean_name = filename.replace(".html", "")
+        cards_html += f"""
+        <div class="card">
+            <h3>{clean_name}</h3>
+            <p>Comprehensive buying guide, features breakdown, and pros/cons review.</p>
+            <a href="generated_articles/{filename}" class="btn">Read Full Review &rarr;</a>
+        </div>
+        """
 
-        try:
-            res = requests.post(api_endpoint, json=payload, headers=headers, timeout=15)
-            if res.status_code in [200, 201]:
-                print(f"✅ Published to WordPress! Link: {res.json().get('link')}")
-            else:
-                print(f"⚠️ WP response status: {res.status_code}")
-        except Exception as e:
-            print(f"⚠️ Connection error with WP: {e}")
+    index_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Hub - Expert Product Reviews</title>
+    <style>
+        body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; margin: 0; padding: 2rem; color: #1e293b; }}
+        header {{ text-align: center; margin-bottom: 3rem; }}
+        h1 {{ font-size: 2.5rem; color: #0f172a; margin-bottom: 0.5rem; }}
+        p.subtitle {{ font-size: 1.1rem; color: #64748b; }}
+        .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }}
+        .card {{ background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }}
+        .card h3 {{ font-size: 1.25rem; margin-top: 0; color: #1e293b; }}
+        .card p {{ color: #64748b; font-size: 0.95rem; line-height: 1.5; }}
+        .btn {{ display: inline-block; padding: 0.75rem 1.25rem; background: #2563eb; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; text-align: center; }}
+        .btn:hover {{ background: #1d4ed8; }}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Smart Product Reviews & Guides</h1>
+        <p class="subtitle">AI-curated buying guides and unbiased technical breakdowns</p>
+    </header>
+    <main class="grid">
+        {cards_html}
+    </main>
+</body>
+</html>"""
+
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(index_html)
+    print("🏠 Homepage 'index.html' updated successfully.")
+
+
+def deploy_to_github():
+    """Automatically commits and pushes new content to GitHub Pages."""
+    print("🚀 Pushing updates to GitHub Pages...")
+    try:
+        subprocess.run(["git", "add", "."], check=True)
+        subprocess.run(["git", "commit", "-m", f"Auto-publish batch: {time.strftime('%Y-%m-%d %H:%M')}"], check=True)
+        subprocess.run(["git", "push", "origin", "main"], check=True)
+        print("✅ Successfully deployed to live site!")
+    except Exception as e:
+        print(f"⚠️ Git auto-deploy note: {e}")
 
 
 # ==========================================
-# 5. Automated Pipeline Task
+# 4. Main Autonomous Runner
 # ==========================================
 def run_autonomous_pipeline():
     current_niche = next(niche_cycle)
-    print(f"\n=======================================================")
-    print(f"⏰ [{time.strftime('%Y-%m-%d %H:%M:%S')}] Starting Cycle for Niche: {current_niche}")
-    print(f"=======================================================")
+    print(f"\n{'='*55}\n⏰ [{time.strftime('%Y-%m-%d %H:%M:%S')}] Starting Cycle for Niche: {current_niche}\n{'='*55}")
 
     products = agent_discover_products(niche=current_niche, count=2)
-    
+    os.makedirs("generated_articles", exist_ok=True)
+
     for idx, prod in enumerate(products, 1):
-        print(f"\n--- [Processing {idx}/{len(products)}]: {prod['name']} (Price: {prod.get('estimated_price')}) ---")
+        print(f"\n--- [Processing {idx}/{len(products)}]: {prod['name']} ---")
         article_data = agent_write_seo_review(prod)
-        agent_publish_or_save(
-            title=article_data["title"],
-            content=article_data["content"],
-            product_name=prod["name"]
-        )
-    print("\n✅ Batch completed! Waiting for next scheduled run...")
+        safe_name = "".join(c for c in prod["name"] if c.isalnum() or c in (" ", "_", "-")).rstrip()
+        file_path = os.path.join("generated_articles", f"{safe_name[:40]}.html")
+        
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(f"<h1>{article_data['title']}</h1>\n\n{article_data['content']}")
+        print(f"💾 Article saved: {file_path}")
+
+    update_homepage()
+    deploy_to_github()
+    print("\n✅ Cycle complete! Next batch scheduled in 24 hours.")
 
 
-# ==========================================
-# 6. Main Runner & Daily Scheduling
-# ==========================================
 if __name__ == "__main__":
     run_autonomous_pipeline()
     schedule.every(24).hours.do(run_autonomous_pipeline)
