@@ -1,0 +1,454 @@
+[
+  {
+    "timestamp": "2026-08-24 19:42:20",
+    "target_email": "gearradarservices@gmail.com",
+    "company_name": "Bikeonic Motorcycle Centre",
+    "subject": "Increasing direct rider enquiries for Bikeonic Motorcycle Centre"
+  },
+  {
+    "timestamp": "2026-08-24 19:52:32",
+    "target_email": "mkam.taha@gmail.com",
+    "company_name": "Apex Moto Performance",
+    "subject": "Improving online bookings & mobile experience for Apex Moto Performance"
+  },
+  {
+    "timestamp": "2026-08-24 20:07:47",
+    "target_email": "sales@boltonmotorcycles.co.uk",
+    "company_name": "Bolton Motorcycles",
+    "subject": "Improving online enquiries & mobile bookings for Bolton Motorcycles"
+  },
+  {
+    "timestamp": "2026-08-24 20:07:55",
+    "target_email": "info@trentmillgarage.co.uk",
+    "company_name": "Trent Mill Garage",
+    "subject": "Improving online enquiries & mobile bookings for Trent Mill Garage"
+  },
+  {
+    "timestamp": "2026-08-24 20:08:02",
+    "target_email": "info@jamesstreetgarage.co.uk",
+    "company_name": "James Street Garage",
+    "subject": "Improving online enquiries & mobile bookings for James Street Garage"
+  },
+  {
+    "timestamp": "2026-08-24 20:14:15",
+    "target_email": "no-reply@google.com",
+    "company_name": "Your Project",
+    "subject": "Next Steps & Project Kickoff — Your Project (GearRadar)"
+  },
+  {
+    "timestamp": "2026-08-24 20:24:40",
+    "target_email": "contact@apexperformance.co.uk",
+    "company_name": "Apex Performance Tuning",
+    "subject": "Improving online enquiries & mobile bookings for Apex Performance Tuning"
+  },
+  {
+    "timestamp": "2026-08-25 15:57:26",
+    "target_email": "info@manchestermotorcycles.co.uk",
+    "company_name": "Manchester Motorcycle Centre",
+    "subject": "Modernising Manchester Motorcycle Centre's Online Presence & Local Bookings"
+  },
+  {
+    "timestamp": "2026-08-25 15:57:43",
+    "target_email": "enquiries@chorleyautoservices.co.uk",
+    "company_name": "Chorley Auto Services",
+    "subject": "Enhancing online bookings & local search for Chorley Auto Services"
+  },
+  {
+    "timestamp": "2026-08-25 15:58:02",
+    "target_email": "contact@burymotorhouse.co.uk",
+    "company_name": "Bury Motor House",
+    "subject": "Modernising Bury Motor House's web presence & local bookings"
+  },
+  {
+    "timestamp": "2026-08-25 15:58:22",
+    "target_email": "sales@wiganmotorcycles.co.uk",
+    "company_name": "Wigan Motorcycle Centre",
+    "subject": "Elevating Wigan Motorcycle Centre's Online Presence & Local Enquiries"
+  },
+  {
+    "timestamp": "2026-08-25 15:58:53",
+    "target_email": "service@prestonmotorcycles.co.uk",
+    "company_name": "Preston Motorcycle Services",
+    "subject": "Enhancing Preston Motorcycle Services' Online Reach & Local Bookings"
+  },
+  {
+    "timestamp": "2026-08-25 15:59:12",
+    "target_email": "info@nwheatingplumbing.co.uk",
+    "company_name": "North West Heating & Plumbing",
+    "subject": "Enhancing online leads for North West Heating & Plumbing"
+  },
+  {
+    "timestamp": "2026-08-25 15:59:59",
+    "target_email": "admin@lancashire-electrical.co.uk",
+    "company_name": "Lancashire Electrical Contractors",
+    "subject": "Improving online lead capture for Lancashire Electrical Contractors"
+  },
+  {
+    "timestamp": "2026-08-25 16:00:21",
+    "target_email": "hello@boltonpropertymaintenance.co.uk",
+    "company_name": "Bolton Property Maintenance Services",
+    "subject": "Bespoke Web Design & Local SEO for Bolton Property Maintenance Services"
+  },
+  {
+    "timestamp": "2026-08-25 16:00:52",
+    "target_email": "bookings@apexcustomdetailing.co.uk",
+    "company_name": "Apex Custom Detailing",
+    "subject": "Quick question regarding Apex Custom Detailing's website and local SEO"
+  },
+  {
+    "timestamp": "2026-08-25 16:01:12",
+    "target_email": "sales@vanguardsecurity.co.uk",
+    "company_name": "Vanguard Security Solutions UK",
+    "subject": "Enhancing online lead generation for Vanguard Security Solutions UK"
+  },
+  {
+    "business_name": "Bolton Bean",
+    "target_email": "info@boltonbean.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:12:56"
+  },
+  {
+    "business_name": "The Coffee Shop @ Heaton",
+    "target_email": "info@thecoffeeshop.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:00"
+  },
+  {
+    "business_name": "Café de Monte Carlo",
+    "target_email": "info@cafdemonte.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:04"
+  },
+  {
+    "business_name": "Bolton Beans",
+    "target_email": "info@boltonbeans.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:09"
+  },
+  {
+    "business_name": "Cafe Vienna",
+    "target_email": "info@cafevienna.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:15"
+  },
+  {
+    "business_name": "Manas Cafe",
+    "target_email": "info@manascafe.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:19"
+  },
+  {
+    "business_name": "Julies Breakfast Bar",
+    "target_email": "info@juliesbreakfastbar.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:23"
+  },
+  {
+    "business_name": "Crumbs Cafe",
+    "target_email": "info@crumbscafe.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:26"
+  },
+  {
+    "business_name": "Habesha Cafe",
+    "target_email": "info@habeshacafe.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:30"
+  },
+  {
+    "business_name": "Brunch & Grill",
+    "target_email": "info@brunchgrill.co.uk",
+    "category": "cafe",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:13:34"
+  },
+  {
+    "business_name": "B Town",
+    "target_email": "info@btown.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:16:42"
+  },
+  {
+    "business_name": "Cafe Italia",
+    "target_email": "info@cafeitalia.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:16:46"
+  },
+  {
+    "business_name": "Out of the Woods",
+    "target_email": "info@outofthe.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:16:50"
+  },
+  {
+    "business_name": "J's at the Winery",
+    "target_email": "info@jsatthe.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:16:53"
+  },
+  {
+    "business_name": "The Algonquin Restaurant",
+    "target_email": "info@thealgonquinrestaurant.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:16:57"
+  },
+  {
+    "business_name": "Retreat",
+    "target_email": "info@retreat.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:17:01"
+  },
+  {
+    "business_name": "Paratha Stop",
+    "target_email": "info@parathastop.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:17:04"
+  },
+  {
+    "business_name": "Dining Hall",
+    "target_email": "info@dininghall.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:17:08"
+  },
+  {
+    "business_name": "Bolton Pizza & Restaurant",
+    "target_email": "info@boltonpizzarestaurant.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:17:12"
+  },
+  {
+    "business_name": "Mondello",
+    "target_email": "info@mondello.co.uk",
+    "category": "restaurant",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:17:15"
+  },
+  {
+    "business_name": "Scooter's Coffee",
+    "target_email": "info@scooterscoffee.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:23:51"
+  },
+  {
+    "business_name": "Restoration Cafe",
+    "target_email": "info@restorationcafe.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:23:54"
+  },
+  {
+    "business_name": "Brumalia Gardens",
+    "target_email": "info@brumaliagardens.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:23:58"
+  },
+  {
+    "business_name": "Sprinkles",
+    "target_email": "info@sprinkles.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:02"
+  },
+  {
+    "business_name": "The Dessert Bar",
+    "target_email": "info@thedessertbar.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:06"
+  },
+  {
+    "business_name": "NXT Coffee Bar",
+    "target_email": "info@nxtcoffeebar.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:09"
+  },
+  {
+    "business_name": "Toast",
+    "target_email": "info@toast.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:13"
+  },
+  {
+    "business_name": "The Moka Pot",
+    "target_email": "info@themokapot.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:17"
+  },
+  {
+    "business_name": "Eagle & Bean",
+    "target_email": "info@eaglebean.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:20"
+  },
+  {
+    "business_name": "Something More Productive",
+    "target_email": "info@somethingmoreproductive.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:24:24"
+  },
+  {
+    "business_name": "R T Shepherd",
+    "target_email": "info@rtshepherd.co.uk",
+    "category": "electrician",
+    "location": "Bolton",
+    "sent_at": "2026-08-25 19:29:19"
+  },
+  {
+    "business_name": "Warwick Street Motors",
+    "target_email": "info@warwickstreetmotors.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:23"
+  },
+  {
+    "business_name": "Belmont Car Garage",
+    "target_email": "info@belmontcargarage.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:27"
+  },
+  {
+    "business_name": "Abbott Brow",
+    "target_email": "info@abbottbrow.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:30"
+  },
+  {
+    "business_name": "Petre Garage",
+    "target_email": "info@petregarage.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:34"
+  },
+  {
+    "business_name": "Clock Garage",
+    "target_email": "info@clockgarage.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:38"
+  },
+  {
+    "business_name": "C. & H. Motors",
+    "target_email": "info@chmotors.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:41"
+  },
+  {
+    "business_name": "Ribbleton Service Station",
+    "target_email": "info@ribbletonservicestation.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:45"
+  },
+  {
+    "business_name": "AA Motor Works",
+    "target_email": "info@aamotorworks.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:48"
+  },
+  {
+    "business_name": "Hoghton Lane Garage",
+    "target_email": "info@hoghtonlanegarage.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:29:52"
+  },
+  {
+    "business_name": "Town Centre Garage",
+    "target_email": "info@towncentregarage.co.uk",
+    "category": "car repair",
+    "location": "Lancashire",
+    "sent_at": "2026-08-25 19:32:53"
+  },
+  {
+    "business_name": "Riverbend Pub & Grill",
+    "target_email": "info@riverbendpubgrill.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:32:57"
+  },
+  {
+    "business_name": "Wild Rover Pub",
+    "target_email": "info@wildroverpub.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:01"
+  },
+  {
+    "business_name": "The Pint Publik House",
+    "target_email": "info@thepintpublik.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:04"
+  },
+  {
+    "business_name": "603 Bar & Grill",
+    "target_email": "info@603bargrill.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:08"
+  },
+  {
+    "business_name": "The Victoria",
+    "target_email": "info@thevictoria.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:11"
+  },
+  {
+    "business_name": "The Shaskeen",
+    "target_email": "info@theshaskeen.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:15"
+  },
+  {
+    "business_name": "Albert Wilson",
+    "target_email": "info@albertwilson.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:19"
+  },
+  {
+    "business_name": "The Orion",
+    "target_email": "info@theorion.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:22"
+  },
+  {
+    "business_name": "Mike's Pub & Grub",
+    "target_email": "info@mikespubgrub.co.uk",
+    "category": "cafe",
+    "location": "Manchester",
+    "sent_at": "2026-08-25 19:33:26"
+  }
+]
