@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# إعدادات البريد الإلكتروني (بالمسميات المتوافقة مع كافة السكربتات)
+# إعدادات البريد والتوافق مع باقي السكربتات
 EMAIL_SENDER = os.environ.get("EMAIL_SENDER", "gearradarservices@gmail.com")
 SENDER_EMAIL = EMAIL_SENDER
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
@@ -63,14 +63,14 @@ def save_sent_log(log_data):
         json.dump(log_data, f, indent=2, ensure_ascii=False)
 
 def craft_email_body(business_name: str, category: str, location: str) -> tuple:
-    """صياغة عرض الـ £30 المباشر"""
+    """صياغة عرض الـ £30 المباشر مع خيار إلغاء الاشتراك القانوني"""
     wa_link = f"https://wa.me/{WHATSAPP_NUMBER}?text=Hi%20Kam,%20I%20want%20the%20£30%20web%20setup%20for%20{business_name.replace(' ', '%20')}"
     
     subject = f"Quick Online Setup & Mobile Page for {business_name} (£30 One-Off)"
     
     body = f"""Hi {business_name} Team,
 
-I came across {business_name} while looking at {category} businesses in {location}.
+I came across {business_name} while looking at {category} businesses across {location}.
 
 At Gear Radar Digital Solutions, we are offering a direct, quick-launch package for local businesses:
 - Fast, mobile-optimised one-page web presence
@@ -89,6 +89,9 @@ Gear Radar Digital Solutions
 Email: {EMAIL_SENDER}
 WhatsApp: +44 7442 309417
 Bolton / Greater Manchester, UK
+
+---
+Opt-out: If you prefer not to receive commercial suggestions from us in the future, please reply with 'Unsubscribe' or 'Opt out' and we will promptly remove your business from our outreach records.
 """
     return subject, body
 
