@@ -1,5 +1,9 @@
 import os
+import smtplib
 import requests
+from datetime import datetime
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from google import genai
@@ -7,6 +11,11 @@ from google import genai
 load_dotenv()
 
 app = Flask(__name__)
+
+# إعدادات البريد والتنبيهات
+EMAIL_SENDER = os.environ.get("EMAIL_SENDER", "gearradarservices@gmail.com")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+ALERT_RECIPIENT = "mkam.taha@gmail.com"  # بريدك الشخصي لاستلام إشعارات الصفقات
 
 # إعدادات Gemini
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
@@ -38,6 +47,46 @@ Key Business Rules:
 {BANK_DETAILS}
 5. Keep WhatsApp replies brief (under 2-3 sentences).
 """
+
+def send_deal_alert_email(client_phone: str, message_text: str):
+    """إرسال إيميل فوري لـ mkam.taha@gmail.com عند إتمام اتفاق أو استلام تأكيد دفع"""
+    if not EMAIL_PASSWORD:
+        print("⚠️ [Alert Error] EMAIL_PASSWORD not found.")
+        return
+
+    subject = f"🎉 [Deal Closed / Payment Confirmation] New £30 Client ({client_phone})"
+    body = f"""Hello Kamal,
+
+A new client has confirmed payment / agreed on WhatsApp!
+
+Details:
+----------------------------------------
+Client Phone: {client_phone}
+Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Last Message / Context: {message_text}
+Deal Value: £30.00 (Upfront)
+----------------------------------------
+
+Next Steps:
+- Check Revolut to confirm receipt of the £30.
+- Collect logo, text, and business contact info to deploy their page within 24-48 hours.
+
+Best regards,
+Kam Tyler (Gear Radar Autonomous WhatsApp Agent)
+"""
+    msg = MIMEMultipart()
+    msg["From"] = f"Gear Radar WhatsApp Agent <{EMAIL_SENDER}>"
+    msg["To"] = ALERT_RECIPIENT
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain", "utf-8"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+            server.send_message(msg)
+        print(f"📧 [Deal Alert Sent] Notification successfully emailed to {ALERT_RECIPIENT}")
+    except Exception as e:
+        print(f"❌ [Email Alert Error]: {e}")
 
 def generate_ai_reply(incoming_msg: str) -> str:
     if not client:
@@ -82,23 +131,35 @@ def whatsapp_webhook():
         msg_data = data.get("messageData", {})
         type_msg = msg_data.get("typeMessage")
         sender_data = data.get("senderData", {})
-        chat_id = sender_data.get("chatId")
+        chat_id = sender_data.get("chatId", "")
 
         # تجاهل المجموعات
         if "@g.us" in chat_id:
             return jsonify({"status": "group message ignored"}), 200
 
         text_message = ""
+        is_payment_proof = False
+
         if type_msg == "textMessage":
             text_message = msg_data.get("textMessageData", {}).get("textMessage", "")
         elif type_msg == "extendedTextMessage":
             text_message = msg_data.get("extendedTextMessageData", {}).get("text", "")
+        elif type_msg in ["imageMessage", "documentMessage"]:
+            caption = msg_data.get("fileMessageData", {}).get("caption", "")
+            text_message = caption if caption else "[Client sent a screenshot / document / payment receipt]"
+            is_payment_proof = True
 
         if text_message:
             print(f"\n💬 [Incoming Message] From: {chat_id} | Message: {text_message}")
             ai_reply = generate_ai_reply(text_message)
             print(f"🤖 [Kam Tyler Replying]: {ai_reply}")
             send_whatsapp_message(chat_id, ai_reply)
+
+            # كشف كلمات التحويل وتأكيد الدفع أو إرسال صورة إيصال
+            trigger_words = ["transfer", "sent", "paid", "screenshot", "receipt", "revolut", "done", "here the transfer"]
+            if is_payment_proof or any(w in text_message.lower() for w in trigger_words):
+                sender_phone = chat_id.replace("@c.us", "")
+                send_deal_alert_email(sender_phone, text_message)
 
     return jsonify({"status": "ok"}), 200
 
