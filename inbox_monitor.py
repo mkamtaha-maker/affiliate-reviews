@@ -131,13 +131,22 @@ def check_inbox_and_reply():
             from_header = decode_mime_words(msg.get("From"))
             subject = decode_mime_words(msg.get("Subject"))
 
-            # استخراج الإيميل الحقيقي
+            # استخراج عنوان البريد الحقيقي
             sender_email = from_header
             if "<" in from_header and ">" in from_header:
                 sender_email = from_header.split("<")[1].split(">")[0]
 
-            # تجاهل الإيميلات المرسلة من أنفسنا
-            if EMAIL_SENDER.lower() in sender_email.lower():
+            # تصفية إيميلات النظام، إشعارات الارتداد، والرسائل التلقائية
+            ignored_senders = [
+                EMAIL_SENDER.lower(),
+                "mailer-daemon",
+                "postmaster",
+                "noreply",
+                "no-reply",
+                "googlemail.com",
+                "notifications@"
+            ]
+            if any(ignored in sender_email.lower() for ignored in ignored_senders):
                 continue
 
             body = ""
